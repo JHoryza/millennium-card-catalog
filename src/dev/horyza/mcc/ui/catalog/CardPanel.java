@@ -25,7 +25,7 @@ public class CardPanel extends JPanel {
 
 	private HashMap<JLabel, Card> cards = new HashMap<JLabel, Card>();
 	
-	public CardPanel() {
+	public CardPanel(GUI gui) {
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBackground(Color.DARK_GRAY);
 
@@ -33,17 +33,20 @@ public class CardPanel extends JPanel {
 		for (int i = 10000; i < 15000; i++) {
 			try {
 				JLabel cardLabel = new JLabel();
-				
-				cardLabel.addMouseListener(new MouseAdapter() {
-					public void mouseEntered(MouseEvent evt) {
-						
-					}
-				});
-
 				Image image = new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + i + ".jpg"))
 						.getImage();
 				ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
 				cardLabel.setIcon(scaledImage);
+				
+				Card card = new Card(i, "Name of " + i, "Card description for " + i, "", "", "", "", 0, 0, 0);
+				cards.put(cardLabel, card);
+				
+				cardLabel.addMouseListener(new MouseAdapter() {
+					public void mouseEntered(MouseEvent evt) {
+						gui.getInfoPanel().updateInfo(card);
+					}
+				});
+				
 				add(cardLabel);
 			} catch (Exception e) {
 				continue;

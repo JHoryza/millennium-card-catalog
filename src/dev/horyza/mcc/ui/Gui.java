@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.ui.catalog.CardPanel;
 import dev.horyza.mcc.ui.catalog.DeckPanel;
 import dev.horyza.mcc.ui.catalog.FilterPanel;
@@ -33,10 +34,10 @@ import dev.horyza.mcc.util.WrapLayout;
 
 public class GUI extends JFrame {
 
-	public FilterPanel filterPanel = new FilterPanel();
-	public InfoPanel infoPanel = new InfoPanel();
-	public CardPanel cardPanel = new CardPanel();
-	public DeckPanel deckPanel = new DeckPanel();
+	private FilterPanel filterPanel = new FilterPanel();
+	private InfoPanel infoPanel = new InfoPanel();
+	private CardPanel cardPanel = new CardPanel(this);
+	private DeckPanel deckPanel = new DeckPanel(this);
 	
 	public GUI() {
 		setTitle("YU-GI-OH");
@@ -66,5 +67,9 @@ public class GUI extends JFrame {
 		contentPane.add(deckPanel, BorderLayout.SOUTH);
 
 		return contentPane;
+	}
+	
+	public InfoPanel getInfoPanel() {
+		return infoPanel;
 	}
 }

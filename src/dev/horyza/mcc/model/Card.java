@@ -2,6 +2,7 @@ package dev.horyza.mcc.model;
 
 public class Card {
 
+	private int id;
 	private String name;
 	private String description;
 	private String type;
@@ -12,7 +13,8 @@ public class Card {
 	private int def;
 	private int level;
 	
-	public Card(String name, String description, String type, String attribute, String race, String archetype, int atk, int def, int level) {
+	public Card(int id, String name, String description, String type, String attribute, String race, String archetype, int atk, int def, int level) {
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.type = type;
@@ -22,5 +24,17 @@ public class Card {
 		this.atk = atk;
 		this.def = def;
 		this.level = level;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 }

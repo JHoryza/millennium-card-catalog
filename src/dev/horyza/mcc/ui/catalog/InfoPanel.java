@@ -12,13 +12,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.ui.GUI;
 
 public class InfoPanel extends JPanel {
 
-	public String cardImageSrc = "10000";
-	public String cardNameText = "Ten Thousand Dragon";
-	public String cardDescText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam odio justo, mattis non facilisis ac, venenatis et risus. Nulla facilisi.";
+	private JLabel cardImage = new JLabel();
+	private JLabel cardName = new JLabel();
+	private JTextArea cardDesc = new JTextArea();
 	
 	public InfoPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -27,28 +28,30 @@ public class InfoPanel extends JPanel {
 		setPreferredSize(new Dimension(250, 400));
 
 		// Card image
-		JLabel cardImage = new JLabel();
-		cardImage.setIcon(new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + cardImageSrc + ".jpg")));
+		cardImage.setIcon(new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/10000.jpg")));
 		cardImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(cardImage);
 
 		// Card name
-		JLabel cardName = new JLabel();
 		cardName.setPreferredSize(new Dimension(250, 50));
 		cardName.setFont(new Font(cardName.getFont().getName(), Font.PLAIN, Math.min(20, 20)));
-		cardName.setText(cardNameText);
+		cardName.setText("Ten Thousand Dragon");
 		cardName.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(cardName);
 
 		// Card description
-		JTextArea cardDesc = new JTextArea();
 		cardDesc.setBackground(Color.GRAY);
 		cardDesc.setWrapStyleWord(true);
 		cardDesc.setLineWrap(true);
 		cardDesc.setEditable(false);
-		cardDesc.setText(
-				cardDescText);
+		cardDesc.setText("Cannot be Normal Summoned/Set. Must be Special Summoned by Tributing monsters you control whose combined ATK & DEF is 10,000 or more. If Summoned this way, the ATK/DEF of this card becomes 10,000.");
 		cardDesc.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(cardDesc);
+	}
+	
+	public void updateInfo(Card card) {
+		cardImage.setIcon(new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + card.getId() + ".jpg")));
+		cardName.setText(card.getName());
+		cardDesc.setText(card.getDescription());
 	}
 }

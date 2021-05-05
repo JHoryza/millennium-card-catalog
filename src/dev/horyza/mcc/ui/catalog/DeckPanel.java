@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -12,11 +15,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.ui.GUI;
 
 public class DeckPanel extends JPanel {
 
-	public DeckPanel() {
+	private GUI gui;
+	
+	private HashMap<JLabel, Card> cards = new HashMap<JLabel, Card>();
+	
+	public DeckPanel(GUI gui) {
+		
+		this.gui = gui;
+		
 		JPanel infoPanel = createInfoPanel();
 		JPanel cardPanel = createCardPanel();
 		JScrollPane cardScrollPane = new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
@@ -62,21 +73,31 @@ public class DeckPanel extends JPanel {
 		cardPanel.setBackground(Color.LIGHT_GRAY);
 
 		// Load cards
-		int cards[] = { 237717162, 20277860, 16768387, 87564352, 41396436, 11384280, 93889755, 76446915, 90219263,
+		int deckCards[] = { 237717162, 20277860, 16768387, 87564352, 41396436, 11384280, 93889755, 76446915, 90219263,
 				60862676, 58314394, 89272878, 2118022, 28546905, 94773007, 62340868, 99551425, 99551425, 87756343,
 				93900406, 7805359, 58861941, 50152549, 51371017, 10071456, 88279736, 88279736, 24611934, 5758500,
 				13599884, 40453765, 40453765, 98495314, 51275027, 71625222, 46918794, 2483611 };
-		for (int i = 0; i < cards.length; i++) {
+		for (int i = 0; i < deckCards.length; i++) {
 			try {
-				JLabel lblNewLabel = new JLabel();
-				Image image = new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + cards[i] + ".jpg"))
+				JLabel cardLabel = new JLabel();
+				Image image = new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + deckCards[i] + ".jpg"))
 						.getImage();
 				ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
-				lblNewLabel.setIcon(scaledImage);
-				if (i != cards.length - 1) {
-					lblNewLabel.setPreferredSize(new Dimension(33, 127));
+				cardLabel.setIcon(scaledImage);
+				if (i != deckCards.length - 1) {
+					cardLabel.setPreferredSize(new Dimension(33, 127));
 				}
-				cardPanel.add(lblNewLabel);
+				
+				Card card = new Card(deckCards[i], "Name of " + deckCards[i], "Card description for " + deckCards[i], "", "", "", "", 0, 0, 0);
+				cards.put(cardLabel, card);
+				
+				cardLabel.addMouseListener(new MouseAdapter() {
+					public void mouseEntered(MouseEvent evt) {
+						gui.getInfoPanel().updateInfo(card);
+					}
+				});
+				
+				cardPanel.add(cardLabel);
 			} catch (Exception e) {
 				continue;
 			}
