@@ -16,6 +16,10 @@ import dev.horyza.mcc.ui.GUI;
 
 public class InfoPanel extends JPanel {
 
+	public String cardImageSrc = "10000";
+	public String cardNameText = "Ten Thousand Dragon";
+	public String cardDescText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam odio justo, mattis non facilisis ac, venenatis et risus. Nulla facilisi.";
+	
 	public InfoPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new EmptyBorder(20, 20, 5, 20));
@@ -24,7 +28,7 @@ public class InfoPanel extends JPanel {
 
 		// Card image
 		JLabel cardImage = new JLabel();
-		cardImage.setIcon(new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/10000.jpg")));
+		cardImage.setIcon(new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + cardImageSrc + ".jpg")));
 		cardImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(cardImage);
 
@@ -32,7 +36,7 @@ public class InfoPanel extends JPanel {
 		JLabel cardName = new JLabel();
 		cardName.setPreferredSize(new Dimension(250, 50));
 		cardName.setFont(new Font(cardName.getFont().getName(), Font.PLAIN, Math.min(20, 20)));
-		cardName.setText("Ten Thousand Dragon");
+		cardName.setText(cardNameText);
 		cardName.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(cardName);
 
@@ -43,7 +47,7 @@ public class InfoPanel extends JPanel {
 		cardDesc.setLineWrap(true);
 		cardDesc.setEditable(false);
 		cardDesc.setText(
-				"Cannot be Normal Summoned/Set. Must be Special Summoned by Tributing monsters you control whose combined ATK & DEF is 10,000 or more. If Summoned this way, the ATK/DEF of this card becomes 10,000.");
+				cardDescText);
 		cardDesc.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(cardDesc);
 	}

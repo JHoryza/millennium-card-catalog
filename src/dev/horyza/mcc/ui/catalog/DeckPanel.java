@@ -17,7 +17,6 @@ import dev.horyza.mcc.ui.GUI;
 public class DeckPanel extends JPanel {
 
 	public DeckPanel() {
-
 		JPanel infoPanel = createInfoPanel();
 		JPanel cardPanel = createCardPanel();
 		JScrollPane cardScrollPane = new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
