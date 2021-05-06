@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import dev.horyza.mcc.database.DatabaseHandler;
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Collection;
+import dev.horyza.mcc.model.Filter;
 import dev.horyza.mcc.ui.GUI;
 import dev.horyza.mcc.util.WrapLayout;
 
@@ -57,6 +58,13 @@ public class CardPanel extends JPanel {
 		ArrayList<Card> cardList = new ArrayList<Card>();
 		DatabaseHandler db = new DatabaseHandler();
 		cardList = db.selectAll();
+		return cardList;
+	}
+	
+	private ArrayList<Card> getCards(Filter filter) {
+		ArrayList<Card> cardList = new ArrayList<Card>();
+		DatabaseHandler db = new DatabaseHandler();
+		cardList = db.selectFiltered(filter);
 		return cardList;
 	}
 }
