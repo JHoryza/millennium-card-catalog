@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import dev.horyza.mcc.services.CollectionManager;
 import dev.horyza.mcc.ui.catalog.CardPanel;
 import dev.horyza.mcc.ui.catalog.DeckPanel;
 import dev.horyza.mcc.ui.catalog.FilterPanel;
@@ -15,6 +16,7 @@ import dev.horyza.mcc.ui.catalog.InfoPanel;
 
 public class GUI extends JFrame {
 
+	private CollectionManager collectionManager = new CollectionManager();
 	private FilterPanel filterPanel = new FilterPanel();
 	private InfoPanel infoPanel = new InfoPanel();
 	private CardPanel cardPanel = new CardPanel(this);
@@ -52,5 +54,9 @@ public class GUI extends JFrame {
 	
 	public InfoPanel getInfoPanel() {
 		return infoPanel;
+	}
+	
+	public CollectionManager getCollectionManager() {
+		return collectionManager;
 	}
 }

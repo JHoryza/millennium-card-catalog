@@ -22,14 +22,19 @@ import dev.horyza.mcc.util.WrapLayout;
 
 public class CardPanel extends JPanel {
 
+	private GUI gui;
 	private HashMap<JLabel, Card> cards = new HashMap<JLabel, Card>();
-	
+
 	public CardPanel(GUI gui) {
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBackground(Color.DARK_GRAY);
+		this.gui = gui;
+		drawCatalog(gui.getCollectionManager().getCatalog());
+	}
 
-		ArrayList<Card> cardList = getCards();
-		
+	public void drawCatalog(Collection collection) {
+		ArrayList<Card> cardList = collection.getCardList();
+
 		// Load cards
 		for (Card card : cardList) {
 			try {
@@ -38,33 +43,19 @@ public class CardPanel extends JPanel {
 						.getImage();
 				ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
 				cardLabel.setIcon(scaledImage);
-				
+
 				cards.put(cardLabel, card);
-				
+
 				cardLabel.addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent evt) {
 						gui.getInfoPanel().updateInfo(card);
 					}
 				});
-				
+
 				add(cardLabel);
 			} catch (Exception e) {
 				continue;
 			}
 		}
-	}
-	
-	private ArrayList<Card> getCards() {
-		ArrayList<Card> cardList = new ArrayList<Card>();
-		DatabaseHandler db = new DatabaseHandler();
-		cardList = db.selectAll();
-		return cardList;
-	}
-	
-	private ArrayList<Card> getCards(Filter filter) {
-		ArrayList<Card> cardList = new ArrayList<Card>();
-		DatabaseHandler db = new DatabaseHandler();
-		cardList = db.selectFiltered(filter);
-		return cardList;
 	}
 }

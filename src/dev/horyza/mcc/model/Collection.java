@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 public class Collection {
 
-	private int id;
 	private ArrayList<Card> cardList;
 	
-	public Collection(int id) {
-		this.id = id;
+	public Collection() {
 		this.cardList = new ArrayList<Card>();
 	}
 	
@@ -18,6 +16,10 @@ public class Collection {
 	
 	public void removeCard(Card card) {
 		cardList.remove(cardList.indexOf(card));
+	}
+	
+	public ArrayList<Card> getCardList() {
+		return cardList;
 	}
 	
 	public void setCardList(ArrayList<Card> cardList) {
