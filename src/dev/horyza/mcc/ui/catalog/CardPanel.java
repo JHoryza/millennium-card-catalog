@@ -5,19 +5,17 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
-import dev.horyza.mcc.Main;
+import dev.horyza.mcc.database.DatabaseHandler;
 import dev.horyza.mcc.model.Card;
+import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.ui.GUI;
 import dev.horyza.mcc.util.WrapLayout;
 
@@ -29,16 +27,17 @@ public class CardPanel extends JPanel {
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBackground(Color.DARK_GRAY);
 
+		ArrayList<Card> cardList = getCards();
+		
 		// Load cards
-		for (int i = 10000; i < 15000; i++) {
+		for (Card card : cardList) {
 			try {
 				JLabel cardLabel = new JLabel();
-				Image image = new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + i + ".jpg"))
+				Image image = new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + card.getId() + ".jpg"))
 						.getImage();
 				ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
 				cardLabel.setIcon(scaledImage);
 				
-				Card card = new Card(i, "Name of " + i, "Card description for " + i, "", "", "", "", 0, 0, 0);
 				cards.put(cardLabel, card);
 				
 				cardLabel.addMouseListener(new MouseAdapter() {
@@ -52,5 +51,12 @@ public class CardPanel extends JPanel {
 				continue;
 			}
 		}
+	}
+	
+	private ArrayList<Card> getCards() {
+		ArrayList<Card> cardList = new ArrayList<Card>();
+		DatabaseHandler db = new DatabaseHandler();
+		cardList = db.selectAll();
+		return cardList;
 	}
 }

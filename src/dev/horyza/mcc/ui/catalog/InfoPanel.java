@@ -29,6 +29,7 @@ public class InfoPanel extends JPanel {
 
 		// Card image
 		cardImage.setIcon(new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/10000.jpg")));
+		
 		cardImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(cardImage);
 

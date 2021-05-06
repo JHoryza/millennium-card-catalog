@@ -1,6 +1,7 @@
 package dev.horyza.mcc;
 
 import java.awt.EventQueue;
+import java.sql.Connection;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import dev.horyza.mcc.database.DatabaseHandler;
 import dev.horyza.mcc.ui.GUI;
 
 public class Main {

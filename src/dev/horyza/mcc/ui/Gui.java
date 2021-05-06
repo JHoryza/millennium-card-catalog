@@ -2,35 +2,16 @@ package dev.horyza.mcc.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 
-import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.ui.catalog.CardPanel;
 import dev.horyza.mcc.ui.catalog.DeckPanel;
 import dev.horyza.mcc.ui.catalog.FilterPanel;
 import dev.horyza.mcc.ui.catalog.InfoPanel;
-import dev.horyza.mcc.util.WrapLayout;
 
 public class GUI extends JFrame {
 
