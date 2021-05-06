@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import dev.horyza.mcc.database.DatabaseHandler;
+import dev.horyza.mcc.services.DatabaseHandler;
 import dev.horyza.mcc.ui.GUI;
 
 public class Main {

@@ -1,4 +1,4 @@
-package dev.horyza.mcc.database;
+package dev.horyza.mcc.services;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

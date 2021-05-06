@@ -1,4 +1,4 @@
-package dev.horyza.mcc.ui.catalog;
+package dev.horyza.mcc.ui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;

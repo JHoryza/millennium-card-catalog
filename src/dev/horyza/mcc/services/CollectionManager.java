@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import javax.swing.JLabel;
 
-import dev.horyza.mcc.database.DatabaseHandler;
 import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.model.Filter;
 

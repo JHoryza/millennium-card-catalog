@@ -1,4 +1,4 @@
-package dev.horyza.mcc.ui.catalog;
+package dev.horyza.mcc.ui;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -13,11 +13,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import dev.horyza.mcc.database.DatabaseHandler;
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.model.Filter;
-import dev.horyza.mcc.ui.GUI;
+import dev.horyza.mcc.services.DatabaseHandler;
 import dev.horyza.mcc.util.WrapLayout;
 
 public class CardPanel extends JPanel {

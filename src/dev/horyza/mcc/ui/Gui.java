@@ -9,10 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import dev.horyza.mcc.services.CollectionManager;
-import dev.horyza.mcc.ui.catalog.CardPanel;
-import dev.horyza.mcc.ui.catalog.DeckPanel;
-import dev.horyza.mcc.ui.catalog.FilterPanel;
-import dev.horyza.mcc.ui.catalog.InfoPanel;
 
 public class GUI extends JFrame {
 
@@ -44,6 +40,7 @@ public class GUI extends JFrame {
 
 		// Card panel
 		JScrollPane cardScrollPane = new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		cardScrollPane.getVerticalScrollBar().setUnitIncrement(32);
 		contentPane.add(cardScrollPane, BorderLayout.CENTER);
 		
 		// Deck panel
