@@ -37,4 +37,32 @@ public class Card {
 	public String getDescription() {
 		return description;
 	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public String getAttribute() {
+		return attribute;
+	}
+	
+	public String getRace() {
+		return race;
+	}
+	
+	public String getArchetype() {
+		return archetype;
+	}
+	
+	public int getAtk() {
+		return atk;
+	}
+	
+	public int getDef() {
+		return def;
+	}
+	
+	public int getLevel() {
+		return level;
+	}
 }

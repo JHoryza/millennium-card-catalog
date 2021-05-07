@@ -1,29 +1,28 @@
 package dev.horyza.mcc.services;
 
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Collection;
-import dev.horyza.mcc.model.Filter;
+import dev.horyza.mcc.ui.GUI;
 
 public class CollectionManager {
 
+	private GUI gui;
 	private Collection catalog = new Collection();
+	private HashMap<JLabel, Card> cardList = new HashMap<JLabel, Card>();
 	
-	public CollectionManager() {
-		updateCardList(catalog);
-	}
-	
-	private void updateCardList(Collection collection) {
+	public CollectionManager(GUI gui) {
+		this.gui = gui;
 		DatabaseHandler db = new DatabaseHandler();
-		collection.setCardList(db.selectAll("cards"));
-	}
-	
-	private void updateCardList(Collection collection, Filter filter) {
-		DatabaseHandler db = new DatabaseHandler();
-		collection.setCardList(db.selectAll("cards"));
+		catalog.setCardList(db.selectAll("cards"));
 	}
 	
 	public Collection getCatalog() {

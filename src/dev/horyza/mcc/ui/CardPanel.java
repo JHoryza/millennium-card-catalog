@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,7 +15,6 @@ import javax.swing.JPanel;
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.model.Filter;
-import dev.horyza.mcc.services.DatabaseHandler;
 import dev.horyza.mcc.util.WrapLayout;
 
 public class CardPanel extends JPanel {
@@ -28,10 +26,10 @@ public class CardPanel extends JPanel {
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBackground(Color.DARK_GRAY);
 		this.gui = gui;
-		drawCatalog(gui.getCollectionManager().getCatalog());
+		drawCards(gui.getCollectionManager().getCatalog());
 	}
 
-	public void drawCatalog(Collection collection) {
+	public void drawCards(Collection collection) {
 		ArrayList<Card> cardList = collection.getCardList();
 
 		// Load cards
@@ -43,18 +41,108 @@ public class CardPanel extends JPanel {
 				ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
 				cardLabel.setIcon(scaledImage);
 
-				cards.put(cardLabel, card);
-
 				cardLabel.addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent evt) {
 						gui.getInfoPanel().updateInfo(card);
 					}
 				});
-
+				
+				cards.put(cardLabel, card);
 				add(cardLabel);
 			} catch (Exception e) {
 				continue;
 			}
 		}
+	}
+
+	public void filterCards(Filter filter) {
+
+		for (JLabel label : cards.keySet()) {
+			Card card = cards.get(label);
+			boolean filterOut = false;
+
+			if (filter.getName() != null) {
+				if (card.getName() != null) {
+					if (!card.getName().toLowerCase().contains(filter.getName().toLowerCase())) {
+						filterOut = true;
+					}
+				} else {
+					filterOut = true;
+				}
+			}
+			if (filter.getType() != null) {
+				if (card.getType() != null) {
+					if (!card.getType().equalsIgnoreCase(filter.getType())) {
+						filterOut = true;
+					}
+				} else {
+					filterOut = true;
+				}
+			}
+			if (filter.getAttribute() != null) {
+				if (card.getAttribute() != null) {
+					if (!card.getAttribute().equalsIgnoreCase(filter.getAttribute())) {
+						filterOut = true;
+					}
+				} else {
+					filterOut = true;
+				}
+			}
+			if (filter.getRace() != null) {
+				if (card.getRace() != null) {
+					if (!card.getRace().equalsIgnoreCase(filter.getRace())) {
+						filterOut = true;
+					}
+				} else {
+					filterOut = true;
+				}
+			}
+			if (filter.getArchetype() != null) {
+				if (card.getArchetype() != null) {
+					if (!card.getArchetype().equalsIgnoreCase(filter.getArchetype())) {
+						filterOut = true;
+					}
+				} else {
+					filterOut = true;
+				}
+			}
+			if (filter.getAtkMin() != -1 && card.getAtk() != -1) {
+				if (card.getAtk() < filter.getAtkMin()) {
+					filterOut = true;
+				}
+			}
+			if (filter.getAtkMax() != -1 && card.getAtk() != -1) {
+				if (card.getAtk() > filter.getAtkMax()) {
+					filterOut = true;
+				}
+			}
+			if (filter.getDefMin() != -1 && card.getDef() != -1) {
+				if (card.getDef() < filter.getDefMin()) {
+					filterOut = true;
+				}
+			}
+			if (filter.getDefMax() != -1 && card.getDef() != -1) {
+				if (card.getDef() > filter.getDefMax()) {
+					filterOut = true;
+				}
+			}
+			if (card.getLevel() != -1) {
+				if (card.getLevel() < filter.getLevelMin()) {
+					filterOut = true;
+				}
+				if (card.getLevel() > filter.getLevelMax()) {
+					filterOut = true;
+				}
+			}
+			if (filterOut) {
+				label.setVisible(false);
+			} else {
+				label.setVisible(true);
+			}
+		}
+	}
+
+	public HashMap<JLabel, Card> getCards() {
+		return cards;
 	}
 }

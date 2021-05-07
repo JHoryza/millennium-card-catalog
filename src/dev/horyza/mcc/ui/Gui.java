@@ -12,8 +12,8 @@ import dev.horyza.mcc.services.CollectionManager;
 
 public class GUI extends JFrame {
 
-	private CollectionManager collectionManager = new CollectionManager();
-	private FilterPanel filterPanel = new FilterPanel();
+	private CollectionManager collectionManager = new CollectionManager(this);
+	private FilterPanel filterPanel = new FilterPanel(this);
 	private InfoPanel infoPanel = new InfoPanel();
 	private CardPanel cardPanel = new CardPanel(this);
 	private DeckPanel deckPanel = new DeckPanel(this);
@@ -51,6 +51,10 @@ public class GUI extends JFrame {
 	
 	public InfoPanel getInfoPanel() {
 		return infoPanel;
+	}
+	
+	public CardPanel getCardPanel() {
+		return cardPanel;
 	}
 	
 	public CollectionManager getCollectionManager() {

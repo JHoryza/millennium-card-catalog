@@ -15,6 +15,20 @@ public class Filter {
 	private int levelMin;
 	private int levelMax;
 	
+	public Filter(String name, String type, String attribute, String race, String archetype, int atkMin, int atkMax, int defMin, int defMax, int levelMin, int levelMax) {
+		this.name = name;
+		this.type = type;
+		this.attribute = attribute;
+		this.race = race;
+		this.archetype = archetype;
+		this.atkMin = atkMin;
+		this.atkMax = atkMax;
+		this.defMin = defMin;
+		this.defMax = defMax;
+		this.levelMin = levelMin;
+		this.levelMax = levelMax;
+	}
+	
 	public Filter(int id, String name, String type, String attribute, String race, String archetype, int atkMin, int atkMax, int defMin, int defMax, int levelMin, int levelMax) {
 		this.id = id;
 		this.name = name;

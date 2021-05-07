@@ -2,6 +2,9 @@ package dev.horyza.mcc.ui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -9,11 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import dev.horyza.mcc.model.Card;
+import dev.horyza.mcc.model.Collection;
+import dev.horyza.mcc.model.Filter;
 import dev.horyza.mcc.util.WrapLayout;
+import javax.swing.JButton;
 
 public class FilterPanel extends JPanel {
-
-	public FilterPanel() {
+	
+	public FilterPanel(GUI gui) {
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBorder(new EmptyBorder(0, 50, 0, 50));
 
@@ -153,5 +160,28 @@ public class FilterPanel extends JPanel {
 		levelMaxCombo.setSelectedIndex(9);
 		levelMaxCombo.setPreferredSize(new Dimension(50, 25));
 		add(levelMaxCombo);
+
+		// Apply filters button
+		JButton applyButton = new JButton("Apply");
+		applyButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = nameText.getText().equals("") ? null : String.valueOf(nameText.getText());
+				String type = String.valueOf(typeCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null : String.valueOf(typeCombo.getSelectedItem());
+				String attribute = String.valueOf(attributeCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null : String.valueOf(attributeCombo.getSelectedItem());
+				String race = String.valueOf(raceCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null : String.valueOf(raceCombo.getSelectedItem());
+				String archetype = String.valueOf(archetypeCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null : String.valueOf(archetypeCombo.getSelectedItem());
+				int atkMin = atkMinText.getText().equalsIgnoreCase("") ? -1 : Integer.parseInt(String.valueOf(atkMinText.getText()));
+				int atkMax = atkMaxText.getText().equalsIgnoreCase("") ? -1 : Integer.parseInt(String.valueOf(atkMaxText.getText()));
+				int defMin = defMinText.getText().equalsIgnoreCase("") ? -1 : Integer.parseInt(String.valueOf(defMinText.getText()));
+				int defMax = defMaxText.getText().equalsIgnoreCase("") ? -1 : Integer.parseInt(String.valueOf(defMaxText.getText()));
+				int levelMin = Integer.parseInt(String.valueOf(levelMinCombo.getSelectedItem()));
+				int levelMax = Integer.parseInt(String.valueOf(levelMaxCombo.getSelectedItem()));
+				System.out.println(name + " " + type + " " + attribute + " " + race + " " + archetype + " " + atkMin + " " + atkMax + " " + defMin + " " + defMax + " " + levelMin + " " + levelMax);
+				Filter filter = new Filter(name, type, attribute, race, archetype, atkMin, atkMax, defMin, defMax, levelMin, levelMax);
+				gui.getCardPanel().filterCards(filter);
+			}
+		});
+		add(applyButton);
 	}
 }
