@@ -3,14 +3,20 @@ package dev.horyza.mcc.ui;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import dev.horyza.mcc.model.Card;
@@ -41,13 +47,30 @@ public class CardPanel extends JPanel {
 						.getImage();
 				ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
 				cardLabel.setIcon(scaledImage);
-
 				cardLabel.addMouseListener(new MouseAdapter() {
+
+					@Override
 					public void mouseEntered(MouseEvent evt) {
 						gui.getInfoPanel().updateInfo(card);
 					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						showPopup(e);
+					}
+
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						showPopup(e);
+					}
+
+					private void showPopup(MouseEvent e) {
+						if (e.isPopupTrigger()) {
+							getPopupMenu(cardLabel).show(e.getComponent(), e.getX(), e.getY());
+						}
+					}
 				});
-				
+
 				cards.put(cardLabel, card);
 				add(cardLabel);
 			} catch (Exception e) {
@@ -141,6 +164,29 @@ public class CardPanel extends JPanel {
 				label.setVisible(true);
 			}
 		}
+	}
+
+	private JPopupMenu getPopupMenu(JLabel label) {
+		JPopupMenu popupMenu = new JPopupMenu();
+		JMenuItem menuItem;
+		
+		menuItem = new JMenuItem("Add to collection");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(cards.get(label).getName() + " added to collection");
+			}
+		});
+		popupMenu.add(menuItem);
+		
+		menuItem = new JMenuItem("Add to deck");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(cards.get(label).getName() + " added to deck");
+			}
+		});
+		popupMenu.add(menuItem);
+		
+		return popupMenu;
 	}
 
 	public HashMap<JLabel, Card> getCards() {

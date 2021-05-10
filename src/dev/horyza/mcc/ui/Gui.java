@@ -12,6 +12,13 @@ import dev.horyza.mcc.services.CollectionManager;
 
 public class GUI extends JFrame {
 	
+	private MenuBar menuBar = new MenuBar();
+	private CollectionManager collectionManager = new CollectionManager(this);
+	private FilterPanel filterPanel = new FilterPanel(this);
+	private InfoPanel infoPanel = new InfoPanel();
+	private CardPanel cardPanel = new CardPanel(this);
+	private DeckPanel deckPanel = new DeckPanel(this);
+	
 	public GUI() {
 		setTitle("YU-GI-OH");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,13 +50,6 @@ public class GUI extends JFrame {
 
 		return contentPane;
 	}
-	
-	private MenuBar menuBar = new MenuBar();
-	private CollectionManager collectionManager = new CollectionManager(this);
-	private FilterPanel filterPanel = new FilterPanel(this);
-	private InfoPanel infoPanel = new InfoPanel();
-	private CardPanel cardPanel = new CardPanel(this);
-	private DeckPanel deckPanel = new DeckPanel(this);
 	
 	public InfoPanel getInfoPanel() {
 		return infoPanel;
