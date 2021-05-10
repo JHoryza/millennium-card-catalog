@@ -1,4 +1,4 @@
-package dev.horyza.mcc.ui;
+package dev.horyza.mcc.ui.panels.infopanel;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import dev.horyza.mcc.model.Card;
+import dev.horyza.mcc.ui.MainFrame;
 
 public class InfoPanel extends JPanel {
 
@@ -27,7 +28,7 @@ public class InfoPanel extends JPanel {
 		setPreferredSize(new Dimension(250, 400));
 
 		// Card image
-		cardImage.setIcon(new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/10000.jpg")));
+		cardImage.setIcon(new ImageIcon(MainFrame.class.getResource("/dev/horyza/mcc/resources/10000.jpg")));
 		
 		cardImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(cardImage);
@@ -50,7 +51,7 @@ public class InfoPanel extends JPanel {
 	}
 	
 	public void updateInfo(Card card) {
-		cardImage.setIcon(new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + card.getId() + ".jpg")));
+		cardImage.setIcon(new ImageIcon(MainFrame.class.getResource("/dev/horyza/mcc/resources/" + card.getId() + ".jpg")));
 		cardName.setText(card.getName());
 		cardDesc.setText(card.getDescription());
 	}

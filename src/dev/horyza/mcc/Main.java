@@ -2,7 +2,7 @@ package dev.horyza.mcc;
 
 import java.awt.EventQueue;
 
-import dev.horyza.mcc.ui.GUI;
+import dev.horyza.mcc.ui.MainFrame;
 
 public class Main {
 	
@@ -10,7 +10,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUI frame = new GUI();
+					MainFrame frame = new MainFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

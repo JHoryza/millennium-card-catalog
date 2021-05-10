@@ -9,17 +9,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import dev.horyza.mcc.services.CollectionManager;
+import dev.horyza.mcc.ui.panels.cardpanel.CardPanel;
+import dev.horyza.mcc.ui.panels.cardpanel.DeckPanel;
+import dev.horyza.mcc.ui.panels.filterpanel.FilterPanel;
+import dev.horyza.mcc.ui.panels.infopanel.InfoPanel;
 
-public class GUI extends JFrame {
+public class MainFrame extends JFrame {
 	
-	private MenuBar menuBar = new MenuBar();
+	private MenuBar menuBar = new MenuBar(this);
 	private CollectionManager collectionManager = new CollectionManager(this);
 	private FilterPanel filterPanel = new FilterPanel(this);
 	private InfoPanel infoPanel = new InfoPanel();
 	private CardPanel cardPanel = new CardPanel(this);
 	private DeckPanel deckPanel = new DeckPanel(this);
 	
-	public GUI() {
+	public MainFrame() {
 		setTitle("YU-GI-OH");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);

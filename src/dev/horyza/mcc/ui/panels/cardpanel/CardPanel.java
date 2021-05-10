@@ -1,4 +1,4 @@
-package dev.horyza.mcc.ui;
+package dev.horyza.mcc.ui.panels.cardpanel;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -22,14 +22,15 @@ import javax.swing.SwingUtilities;
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.model.Filter;
+import dev.horyza.mcc.ui.MainFrame;
 import dev.horyza.mcc.util.WrapLayout;
 
 public class CardPanel extends JPanel {
 
-	private GUI gui;
+	private MainFrame gui;
 	private HashMap<JLabel, Card> cards = new HashMap<JLabel, Card>();
 
-	public CardPanel(GUI gui) {
+	public CardPanel(MainFrame gui) {
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBackground(Color.DARK_GRAY);
 		this.gui = gui;
@@ -43,7 +44,7 @@ public class CardPanel extends JPanel {
 		for (Card card : cardList) {
 			try {
 				JLabel cardLabel = new JLabel();
-				Image image = new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + card.getId() + ".jpg"))
+				Image image = new ImageIcon(MainFrame.class.getResource("/dev/horyza/mcc/resources/" + card.getId() + ".jpg"))
 						.getImage();
 				ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
 				cardLabel.setIcon(scaledImage);
@@ -173,7 +174,8 @@ public class CardPanel extends JPanel {
 		menuItem = new JMenuItem("Add to collection");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(cards.get(label).getName() + " added to collection");
+				Card card = cards.get(label);
+				gui.getCollectionManager().getUserCollection().addCard(card);
 			}
 		});
 		popupMenu.add(menuItem);
@@ -185,7 +187,6 @@ public class CardPanel extends JPanel {
 			}
 		});
 		popupMenu.add(menuItem);
-		
 		return popupMenu;
 	}
 

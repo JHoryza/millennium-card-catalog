@@ -1,4 +1,4 @@
-package dev.horyza.mcc.ui;
+package dev.horyza.mcc.ui.panels.cardpanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,16 +16,17 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import dev.horyza.mcc.model.Card;
+import dev.horyza.mcc.ui.MainFrame;
 
 public class DeckPanel extends JPanel {
 
-	private GUI gui;
+	private MainFrame frame;
 	
 	private HashMap<JLabel, Card> cards = new HashMap<JLabel, Card>();
 	
-	public DeckPanel(GUI gui) {
+	public DeckPanel(MainFrame frame) {
 		
-		this.gui = gui;
+		this.frame = frame;
 		
 		JPanel infoPanel = createInfoPanel();
 		JPanel cardPanel = createCardPanel();
@@ -79,7 +80,7 @@ public class DeckPanel extends JPanel {
 		for (int i = 0; i < deckCards.length; i++) {
 			try {
 				JLabel cardLabel = new JLabel();
-				Image image = new ImageIcon(GUI.class.getResource("/dev/horyza/mcc/resources/" + deckCards[i] + ".jpg"))
+				Image image = new ImageIcon(MainFrame.class.getResource("/dev/horyza/mcc/resources/" + deckCards[i] + ".jpg"))
 						.getImage();
 				ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
 				cardLabel.setIcon(scaledImage);
@@ -92,7 +93,7 @@ public class DeckPanel extends JPanel {
 				
 				cardLabel.addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent evt) {
-						gui.getInfoPanel().updateInfo(card);
+						frame.getInfoPanel().updateInfo(card);
 					}
 				});
 				
