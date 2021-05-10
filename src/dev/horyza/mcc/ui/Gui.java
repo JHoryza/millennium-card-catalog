@@ -11,12 +11,6 @@ import javax.swing.JScrollPane;
 import dev.horyza.mcc.services.CollectionManager;
 
 public class GUI extends JFrame {
-
-	private CollectionManager collectionManager = new CollectionManager(this);
-	private FilterPanel filterPanel = new FilterPanel(this);
-	private InfoPanel infoPanel = new InfoPanel();
-	private CardPanel cardPanel = new CardPanel(this);
-	private DeckPanel deckPanel = new DeckPanel(this);
 	
 	public GUI() {
 		setTitle("YU-GI-OH");
@@ -24,6 +18,7 @@ public class GUI extends JFrame {
 		setBounds(100, 100, 800, 600);
 		setMinimumSize(new Dimension(800, 600));
 		setContentPane(createContentPane());
+		setJMenuBar(menuBar);
 	}
 
 	private JPanel createContentPane() {
@@ -48,6 +43,13 @@ public class GUI extends JFrame {
 
 		return contentPane;
 	}
+	
+	private MenuBar menuBar = new MenuBar();
+	private CollectionManager collectionManager = new CollectionManager(this);
+	private FilterPanel filterPanel = new FilterPanel(this);
+	private InfoPanel infoPanel = new InfoPanel();
+	private CardPanel cardPanel = new CardPanel(this);
+	private DeckPanel deckPanel = new DeckPanel(this);
 	
 	public InfoPanel getInfoPanel() {
 		return infoPanel;

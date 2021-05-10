@@ -11,6 +11,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Collection;
