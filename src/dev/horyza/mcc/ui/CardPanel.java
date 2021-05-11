@@ -8,7 +8,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -25,9 +32,9 @@ import dev.horyza.mcc.util.WrapLayout;
 public class CardPanel extends JPanel {
 
 	private MainFrame frame;
+	private DatabaseHandler db = new DatabaseHandler();
 	private CardList cardList;
 	private HashMap<JLabel, Card> cardMap = new HashMap<JLabel, Card>();
-	private DatabaseHandler db = new DatabaseHandler();
 
 	public CardPanel(MainFrame frame, CardList cardList) {
 		this.frame = frame;
@@ -124,94 +131,36 @@ public class CardPanel extends JPanel {
 
 	public void filterCards(Filter filter) {
 
-		for (JLabel label : cardMap.keySet()) {
-			Card card = cardMap.get(label);
-			boolean filterOut = false;
+		Map<Supplier<Boolean>, Predicate<JLabel>> map = new HashMap<>();
+		map.put(() -> filter.getName() != null, c -> cardMap.get(c).getName().contains(filter.getName()));
+		map.put(() -> filter.getType() != null, c -> cardMap.get(c).getType().equalsIgnoreCase(filter.getType()) && cardMap.get(c).getType() != null);
+		map.put(() -> filter.getAttribute() != null, c -> cardMap.get(c).getAttribute().equalsIgnoreCase(filter.getAttribute()) && cardMap.get(c).getAttribute() != null);
+		map.put(() -> filter.getRace() != null, c -> cardMap.get(c).getRace().equalsIgnoreCase(filter.getRace()) && cardMap.get(c).getRace() != null);
+		map.put(() -> filter.getArchetype() != null, c -> cardMap.get(c).getArchetype().equalsIgnoreCase(filter.getArchetype()) && cardMap.get(c).getArchetype() != null);
+		map.put(() -> filter.getAtkMin() != -1, c -> cardMap.get(c).getAtk() >= filter.getAtkMin() && cardMap.get(c).getAtk() != -1);
+		map.put(() -> filter.getAtkMax() != -1, c -> cardMap.get(c).getAtk() <= filter.getAtkMax() && cardMap.get(c).getAtk() != -1);
+		map.put(() -> filter.getDefMin() != -1, c -> cardMap.get(c).getDef() >= filter.getDefMin() && cardMap.get(c).getDef() != -1);
+		map.put(() -> filter.getDefMax() != -1, c -> cardMap.get(c).getDef() <= filter.getDefMax() && cardMap.get(c).getDef() != -1);
+		map.put(() -> filter.getLevelMin() != -1, c -> cardMap.get(c).getLevel() >= filter.getLevelMin() && cardMap.get(c).getLevel() != -1);
+		map.put(() -> filter.getLevelMax() != -1, c -> cardMap.get(c).getLevel() <= filter.getLevelMax() && cardMap.get(c).getLevel() != -1);
 
-			if (filter.getName() != null) {
-				if (card.getName() != null) {
-					if (!card.getName().toLowerCase().contains(filter.getName().toLowerCase())) {
-						filterOut = true;
-					}
-				} else {
-					filterOut = true;
-				}
-			}
-			if (filter.getType() != null) {
-				if (card.getType() != null) {
-					if (!card.getType().equalsIgnoreCase(filter.getType())) {
-						filterOut = true;
-					}
-				} else {
-					filterOut = true;
-				}
-			}
-			if (filter.getAttribute() != null) {
-				if (card.getAttribute() != null) {
-					if (!card.getAttribute().equalsIgnoreCase(filter.getAttribute())) {
-						filterOut = true;
-					}
-				} else {
-					filterOut = true;
-				}
-			}
-			if (filter.getRace() != null) {
-				if (card.getRace() != null) {
-					if (!card.getRace().equalsIgnoreCase(filter.getRace())) {
-						filterOut = true;
-					}
-				} else {
-					filterOut = true;
-				}
-			}
-			if (filter.getArchetype() != null) {
-				if (card.getArchetype() != null) {
-					if (!card.getArchetype().equalsIgnoreCase(filter.getArchetype())) {
-						filterOut = true;
-					}
-				} else {
-					filterOut = true;
-				}
-			}
-			if (filter.getAtkMin() != -1 && card.getAtk() != -1) {
-				if (card.getAtk() < filter.getAtkMin()) {
-					filterOut = true;
-				}
-			}
-			if (filter.getAtkMax() != -1 && card.getAtk() != -1) {
-				if (card.getAtk() > filter.getAtkMax()) {
-					filterOut = true;
-				}
-			}
-			if (filter.getDefMin() != -1 && card.getDef() != -1) {
-				if (card.getDef() < filter.getDefMin()) {
-					filterOut = true;
-				}
-			}
-			if (filter.getDefMax() != -1 && card.getDef() != -1) {
-				if (card.getDef() > filter.getDefMax()) {
-					filterOut = true;
-				}
-			}
-			if (card.getLevel() != -1) {
-				if (card.getLevel() < filter.getLevelMin()) {
-					filterOut = true;
-				}
-				if (card.getLevel() > filter.getLevelMax()) {
-					filterOut = true;
-				}
-			}
-			if (filterOut) {
-				label.setVisible(false);
-			} else {
+		List<JLabel> filterList = cardMap.keySet().stream().filter(map.entrySet()
+				.stream().filter(e -> e.getKey().get())
+				.map(Entry::getValue)
+				.reduce(i -> true, (l, r) -> l.and(r)))
+				.collect(Collectors.toList());
+		
+		for (JLabel label : cardMap.keySet()) {
+			if (filterList.contains(label)) {
 				label.setVisible(true);
+			} else {
+				label.setVisible(false);
 			}
 		}
 	}
 
 	private JPopupMenu getPopupMenu(JLabel label) {
 		JPopupMenu popupMenu = new JPopupMenu();
-
 		switch (cardList) {
 		case CATALOG:
 			popupMenu.add(addToCollection(label));
@@ -226,10 +175,9 @@ public class CardPanel extends JPanel {
 			popupMenu.add(removeFromDeck(label));
 			break;
 		}
-		
 		return popupMenu;
 	}
-	
+
 	private JMenuItem addToCollection(JLabel label) {
 		JMenuItem addToCollection = new JMenuItem("Add to collection");
 		addToCollection.addActionListener(new ActionListener() {
@@ -240,18 +188,18 @@ public class CardPanel extends JPanel {
 		});
 		return addToCollection;
 	}
-	
+
 	private JMenuItem addToDeck(JLabel label) {
 		JMenuItem addToDeck = new JMenuItem("Add to deck");
 		addToDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Card card = cardMap.get(label);
-				//TODO add to deck
+				// TODO add to deck
 			}
 		});
 		return addToDeck;
 	}
-	
+
 	private JMenuItem removeFromCollection(JLabel label) {
 		JMenuItem removeFromCollection = new JMenuItem("Remove from collection");
 		removeFromCollection.addActionListener(new ActionListener() {
@@ -261,18 +209,14 @@ public class CardPanel extends JPanel {
 		});
 		return removeFromCollection;
 	}
-	
+
 	private JMenuItem removeFromDeck(JLabel label) {
 		JMenuItem removeFromDeck = new JMenuItem("Remove from deck");
 		removeFromDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO remove from deck
+				// TODO remove from deck
 			}
 		});
 		return removeFromDeck;
-	}
-
-	public HashMap<JLabel, Card> getCards() {
-		return cardMap;
 	}
 }
