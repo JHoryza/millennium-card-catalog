@@ -20,24 +20,23 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import dev.horyza.mcc.model.Card;
-import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.model.Filter;
+import dev.horyza.mcc.services.DatabaseHandler;
 import dev.horyza.mcc.util.WrapLayout;
 
 public class CardPanel extends JPanel {
 
 	private MainFrame frame;
-	private Collection collection;
-	private int collectionType;
+	private String collectionType;
 	private HashMap<JLabel, Card> cards = new HashMap<JLabel, Card>();
+	private DatabaseHandler db = new DatabaseHandler();
 
-	public CardPanel(MainFrame frame, Collection collection, int collectionType) {
+	public CardPanel(MainFrame frame, String collectionType) {
+		this.frame = frame;
+		this.collectionType = collectionType;
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBackground(Color.DARK_GRAY);
-		this.frame = frame;
-		this.collection = collection;
-		this.collectionType = collectionType;
-		loadCards(collection.getCardList());
+		loadCards(db.selectAll(collectionType));
 	}
 
 	public void loadCards(ArrayList<Card> cardList) {
@@ -111,7 +110,6 @@ public class CardPanel extends JPanel {
 					}
 				}
 			});
-			collection.addCard(card);
 			cards.put(cardLabel, card);
 			add(cardLabel);
 		} catch (Exception e) {
@@ -120,7 +118,6 @@ public class CardPanel extends JPanel {
 	}
 
 	public void removeCard(JLabel cardLabel) {
-		collection.removeCard(cards.get(cardLabel));
 		cards.remove(cardLabel);
 		remove(cardLabel);
 		revalidate();
@@ -218,15 +215,15 @@ public class CardPanel extends JPanel {
 		JPopupMenu popupMenu = new JPopupMenu();
 
 		switch (collectionType) {
-		case 0:
+		case "catalog":
 			popupMenu.add(addToCollection(label));
 			popupMenu.add(addToDeck(label));
 			break;
-		case 1:
+		case "collection":
 			popupMenu.add(removeFromCollection(label));
 			popupMenu.add(addToDeck(label));
 			break;
-		case 2:
+		case "deck":
 			popupMenu.add(addToCollection(label));
 			popupMenu.add(removeFromDeck(label));
 			break;

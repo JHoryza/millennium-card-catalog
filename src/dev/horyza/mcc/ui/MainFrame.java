@@ -9,8 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import dev.horyza.mcc.model.Collection;
-import dev.horyza.mcc.services.CollectionManager;
 import dev.horyza.mcc.services.DatabaseHandler;
 
 public class MainFrame extends JFrame {
@@ -19,8 +17,8 @@ public class MainFrame extends JFrame {
 	private MenuBar menuBar = new MenuBar(this);
 	private FilterPanel filterPanel = new FilterPanel(this);
 	private InfoPanel infoPanel = new InfoPanel();
-	private CardPanel catalogPanel = new CardPanel(this, new Collection(db.selectAll("cards")), 0);
-	private CardPanel collectionPanel = new CardPanel(this, new Collection(), 1);
+	private CardPanel catalogPanel = new CardPanel(this, "catalog");
+	private CardPanel collectionPanel = new CardPanel(this, "collection");
 	private DeckPanel deckPanel = new DeckPanel(this);
 	public JScrollPane cardScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	

@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import dev.horyza.mcc.model.Card;
-import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.model.Filter;
 import dev.horyza.mcc.util.WrapLayout;
 import javax.swing.JButton;
