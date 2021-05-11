@@ -16,21 +16,14 @@ import dev.horyza.mcc.ui.MainFrame;
 public class CollectionManager {
 
 	private MainFrame frame;
-	private Collection catalog = new Collection();
-	private Collection userCollection = new Collection();
-	private HashMap<JLabel, Card> cardList = new HashMap<JLabel, Card>();
+	private Collection collection = new Collection();
+	private DatabaseHandler db = new DatabaseHandler();
 	
 	public CollectionManager(MainFrame frame) {
 		this.frame = frame;
-		DatabaseHandler db = new DatabaseHandler();
-		catalog.setCardList(db.selectAll("cards"));
 	}
 	
-	public Collection getCatalog() {
-		return catalog;
-	}
-	
-	public Collection getUserCollection() {
-		return userCollection;
+	public Collection getCollection() {
+		return collection;
 	}
 }

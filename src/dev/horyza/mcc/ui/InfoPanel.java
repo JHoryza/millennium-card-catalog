@@ -1,4 +1,4 @@
-package dev.horyza.mcc.ui.panels.infopanel;
+package dev.horyza.mcc.ui;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,7 +13,6 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import dev.horyza.mcc.model.Card;
-import dev.horyza.mcc.ui.MainFrame;
 
 public class InfoPanel extends JPanel {
 

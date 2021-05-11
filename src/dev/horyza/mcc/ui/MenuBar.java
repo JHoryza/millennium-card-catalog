@@ -11,10 +11,10 @@ import dev.horyza.mcc.model.Card;
 
 public class MenuBar extends JMenuBar {
 
-	private MainFrame gui;
+	private MainFrame frame;
 	
-	public MenuBar(MainFrame gui) {
-		this.gui = gui;
+	public MenuBar(MainFrame frame) {
+		this.frame = frame;
 		add(getFileMenu());
 	}
 	
@@ -24,7 +24,8 @@ public class MenuBar extends JMenuBar {
 		JMenuItem viewCatalog = new JMenuItem("View Catalog");
 		viewCatalog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gui.getCardPanel().drawCards(gui.getCollectionManager().getCatalog());
+				frame.cardScrollPane.setViewportView(frame.getCatalogPanel());
+				
 			}
 		});
 		fileMenu.add(viewCatalog);
@@ -32,7 +33,8 @@ public class MenuBar extends JMenuBar {
 		JMenuItem viewCollection = new JMenuItem("View Collection");
 		viewCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gui.getCardPanel().drawCards(gui.getCollectionManager().getUserCollection());
+				frame.cardScrollPane.setViewportView(frame.getCollectionPanel());
+				
 			}
 		});
 		fileMenu.add(viewCollection);

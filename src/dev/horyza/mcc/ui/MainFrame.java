@@ -7,21 +7,22 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
+import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.services.CollectionManager;
-import dev.horyza.mcc.ui.panels.cardpanel.CardPanel;
-import dev.horyza.mcc.ui.panels.cardpanel.DeckPanel;
-import dev.horyza.mcc.ui.panels.filterpanel.FilterPanel;
-import dev.horyza.mcc.ui.panels.infopanel.InfoPanel;
+import dev.horyza.mcc.services.DatabaseHandler;
 
 public class MainFrame extends JFrame {
 	
+	private DatabaseHandler db = new DatabaseHandler();
 	private MenuBar menuBar = new MenuBar(this);
-	private CollectionManager collectionManager = new CollectionManager(this);
 	private FilterPanel filterPanel = new FilterPanel(this);
 	private InfoPanel infoPanel = new InfoPanel();
-	private CardPanel cardPanel = new CardPanel(this);
+	private CardPanel catalogPanel = new CardPanel(this, new Collection(db.selectAll("cards")), 0);
+	private CardPanel collectionPanel = new CardPanel(this, new Collection(), 1);
 	private DeckPanel deckPanel = new DeckPanel(this);
+	public JScrollPane cardScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	
 	public MainFrame() {
 		setTitle("YU-GI-OH");
@@ -45,7 +46,6 @@ public class MainFrame extends JFrame {
 		contentPane.add(infoPanel, BorderLayout.WEST);
 
 		// Card panel
-		JScrollPane cardScrollPane = new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		cardScrollPane.getVerticalScrollBar().setUnitIncrement(32);
 		contentPane.add(cardScrollPane, BorderLayout.CENTER);
 		
@@ -59,11 +59,11 @@ public class MainFrame extends JFrame {
 		return infoPanel;
 	}
 	
-	public CardPanel getCardPanel() {
-		return cardPanel;
+	public CardPanel getCatalogPanel() {
+		return catalogPanel;
 	}
 	
-	public CollectionManager getCollectionManager() {
-		return collectionManager;
+	public CardPanel getCollectionPanel() {
+		return collectionPanel;
 	}
 }

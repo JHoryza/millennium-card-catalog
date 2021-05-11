@@ -1,4 +1,4 @@
-package dev.horyza.mcc.ui.panels.filterpanel;
+package dev.horyza.mcc.ui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,7 +15,6 @@ import javax.swing.border.EmptyBorder;
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.model.Filter;
-import dev.horyza.mcc.ui.MainFrame;
 import dev.horyza.mcc.util.WrapLayout;
 import javax.swing.JButton;
 
@@ -180,7 +179,7 @@ public class FilterPanel extends JPanel {
 				int levelMax = Integer.parseInt(String.valueOf(levelMaxCombo.getSelectedItem()));
 				System.out.println(name + " " + type + " " + attribute + " " + race + " " + archetype + " " + atkMin + " " + atkMax + " " + defMin + " " + defMax + " " + levelMin + " " + levelMax);
 				Filter filter = new Filter(name, type, attribute, race, archetype, atkMin, atkMax, defMin, defMax, levelMin, levelMax);
-				frame.getCardPanel().filterCards(filter);
+				frame.getCatalogPanel().filterCards(filter);
 			}
 		});
 		add(applyButton);

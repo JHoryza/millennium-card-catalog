@@ -1,4 +1,4 @@
-package dev.horyza.mcc.ui.panels.cardpanel;
+package dev.horyza.mcc.ui;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -22,39 +22,40 @@ import javax.swing.SwingUtilities;
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Collection;
 import dev.horyza.mcc.model.Filter;
-import dev.horyza.mcc.ui.MainFrame;
 import dev.horyza.mcc.util.WrapLayout;
 
 public class CardPanel extends JPanel {
 
-	private MainFrame gui;
+	private MainFrame frame;
+	private Collection collection;
+	private int collectionType;
 	private HashMap<JLabel, Card> cards = new HashMap<JLabel, Card>();
 
-	public CardPanel(MainFrame gui) {
+	public CardPanel(MainFrame frame, Collection collection, int collectionType) {
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBackground(Color.DARK_GRAY);
-		this.gui = gui;
-		drawCards(gui.getCollectionManager().getCatalog());
+		this.frame = frame;
+		this.collection = collection;
+		this.collectionType = collectionType;
+		loadCards(collection.getCardList());
 	}
 
-	public void drawCards(Collection collection) {
-		ArrayList<Card> cardList = collection.getCardList();
-
+	public void loadCards(ArrayList<Card> cardList) {
 		// Load cards
 		for (Card card : cardList) {
 			try {
 				JLabel cardLabel = new JLabel();
-				Image image = new ImageIcon(MainFrame.class.getResource("/dev/horyza/mcc/resources/" + card.getId() + ".jpg"))
-						.getImage();
+				Image image = new ImageIcon(
+						MainFrame.class.getResource("/dev/horyza/mcc/resources/" + card.getId() + ".jpg")).getImage();
 				ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
 				cardLabel.setIcon(scaledImage);
 				cardLabel.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mouseEntered(MouseEvent evt) {
-						gui.getInfoPanel().updateInfo(card);
+						frame.getInfoPanel().updateInfo(card);
 					}
-					
+
 					@Override
 					public void mousePressed(MouseEvent e) {
 						showPopup(e);
@@ -78,6 +79,52 @@ public class CardPanel extends JPanel {
 				continue;
 			}
 		}
+	}
+
+	public void addCard(Card card) {
+		try {
+			JLabel cardLabel = new JLabel();
+			Image image = new ImageIcon(
+					MainFrame.class.getResource("/dev/horyza/mcc/resources/" + card.getId() + ".jpg")).getImage();
+			ImageIcon scaledImage = new ImageIcon(image.getScaledInstance(89, 127, Image.SCALE_SMOOTH));
+			cardLabel.setIcon(scaledImage);
+			cardLabel.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mouseEntered(MouseEvent evt) {
+					frame.getInfoPanel().updateInfo(card);
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					showPopup(e);
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					showPopup(e);
+				}
+
+				private void showPopup(MouseEvent e) {
+					if (e.isPopupTrigger()) {
+						getPopupMenu(cardLabel).show(e.getComponent(), e.getX(), e.getY());
+					}
+				}
+			});
+			collection.addCard(card);
+			cards.put(cardLabel, card);
+			add(cardLabel);
+		} catch (Exception e) {
+
+		}
+	}
+
+	public void removeCard(JLabel cardLabel) {
+		collection.removeCard(cards.get(cardLabel));
+		cards.remove(cardLabel);
+		remove(cardLabel);
+		revalidate();
+		repaint();
 	}
 
 	public void filterCards(Filter filter) {
@@ -169,25 +216,65 @@ public class CardPanel extends JPanel {
 
 	private JPopupMenu getPopupMenu(JLabel label) {
 		JPopupMenu popupMenu = new JPopupMenu();
-		JMenuItem menuItem;
+
+		switch (collectionType) {
+		case 0:
+			popupMenu.add(addToCollection(label));
+			popupMenu.add(addToDeck(label));
+			break;
+		case 1:
+			popupMenu.add(removeFromCollection(label));
+			popupMenu.add(addToDeck(label));
+			break;
+		case 2:
+			popupMenu.add(addToCollection(label));
+			popupMenu.add(removeFromDeck(label));
+			break;
+		}
 		
-		menuItem = new JMenuItem("Add to collection");
-		menuItem.addActionListener(new ActionListener() {
+		return popupMenu;
+	}
+	
+	private JMenuItem addToCollection(JLabel label) {
+		JMenuItem addToCollection = new JMenuItem("Add to collection");
+		addToCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Card card = cards.get(label);
-				gui.getCollectionManager().getUserCollection().addCard(card);
+				frame.getCollectionPanel().addCard(card);
 			}
 		});
-		popupMenu.add(menuItem);
-		
-		menuItem = new JMenuItem("Add to deck");
-		menuItem.addActionListener(new ActionListener() {
+		return addToCollection;
+	}
+	
+	private JMenuItem addToDeck(JLabel label) {
+		JMenuItem addToDeck = new JMenuItem("Add to deck");
+		addToDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(cards.get(label).getName() + " added to deck");
+				Card card = cards.get(label);
+				//TODO add to deck
 			}
 		});
-		popupMenu.add(menuItem);
-		return popupMenu;
+		return addToDeck;
+	}
+	
+	private JMenuItem removeFromCollection(JLabel label) {
+		JMenuItem removeFromCollection = new JMenuItem("Remove from collection");
+		removeFromCollection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeCard(label);
+			}
+		});
+		return removeFromCollection;
+	}
+	
+	private JMenuItem removeFromDeck(JLabel label) {
+		JMenuItem removeFromDeck = new JMenuItem("Remove from deck");
+		removeFromDeck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO remove from deck
+			}
+		});
+		return removeFromDeck;
 	}
 
 	public HashMap<JLabel, Card> getCards() {

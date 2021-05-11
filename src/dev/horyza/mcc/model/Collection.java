@@ -10,6 +10,10 @@ public class Collection {
 		this.cardList = new ArrayList<Card>();
 	}
 	
+	public Collection(ArrayList<Card> cardList) {
+		this.cardList = cardList;
+	}
+	
 	public void addCard(Card card) {
 		cardList.add(card);
 	}
