@@ -11,37 +11,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
 
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Filter;
 import dev.horyza.mcc.services.DatabaseHandler;
+import dev.horyza.mcc.ui.MainFrame.CardList;
 import dev.horyza.mcc.util.WrapLayout;
 
 public class CardPanel extends JPanel {
 
 	private MainFrame frame;
-	private String collectionType;
-	private HashMap<JLabel, Card> cards = new HashMap<JLabel, Card>();
+	private CardList cardList;
+	private HashMap<JLabel, Card> cardMap = new HashMap<JLabel, Card>();
 	private DatabaseHandler db = new DatabaseHandler();
 
-	public CardPanel(MainFrame frame, String collectionType) {
+	public CardPanel(MainFrame frame, CardList cardList) {
 		this.frame = frame;
-		this.collectionType = collectionType;
+		this.cardList = cardList;
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBackground(Color.DARK_GRAY);
-		loadCards(db.selectAll(collectionType));
+		loadCards(db.selectAll(cardList.getTableName()));
 	}
 
-	public void loadCards(ArrayList<Card> cardList) {
+	public void loadCards(ArrayList<Card> cards) {
 		// Load cards
-		for (Card card : cardList) {
+		for (Card card : cards) {
 			try {
 				JLabel cardLabel = new JLabel();
 				Image image = new ImageIcon(
@@ -72,7 +70,7 @@ public class CardPanel extends JPanel {
 					}
 				});
 
-				cards.put(cardLabel, card);
+				cardMap.put(cardLabel, card);
 				add(cardLabel);
 			} catch (Exception e) {
 				continue;
@@ -110,7 +108,7 @@ public class CardPanel extends JPanel {
 					}
 				}
 			});
-			cards.put(cardLabel, card);
+			cardMap.put(cardLabel, card);
 			add(cardLabel);
 		} catch (Exception e) {
 
@@ -118,7 +116,7 @@ public class CardPanel extends JPanel {
 	}
 
 	public void removeCard(JLabel cardLabel) {
-		cards.remove(cardLabel);
+		cardMap.remove(cardLabel);
 		remove(cardLabel);
 		revalidate();
 		repaint();
@@ -126,8 +124,8 @@ public class CardPanel extends JPanel {
 
 	public void filterCards(Filter filter) {
 
-		for (JLabel label : cards.keySet()) {
-			Card card = cards.get(label);
+		for (JLabel label : cardMap.keySet()) {
+			Card card = cardMap.get(label);
 			boolean filterOut = false;
 
 			if (filter.getName() != null) {
@@ -214,16 +212,16 @@ public class CardPanel extends JPanel {
 	private JPopupMenu getPopupMenu(JLabel label) {
 		JPopupMenu popupMenu = new JPopupMenu();
 
-		switch (collectionType) {
-		case "catalog":
+		switch (cardList) {
+		case CATALOG:
 			popupMenu.add(addToCollection(label));
 			popupMenu.add(addToDeck(label));
 			break;
-		case "collection":
+		case COLLECTION:
 			popupMenu.add(removeFromCollection(label));
 			popupMenu.add(addToDeck(label));
 			break;
-		case "deck":
+		case DECK:
 			popupMenu.add(addToCollection(label));
 			popupMenu.add(removeFromDeck(label));
 			break;
@@ -236,7 +234,7 @@ public class CardPanel extends JPanel {
 		JMenuItem addToCollection = new JMenuItem("Add to collection");
 		addToCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Card card = cards.get(label);
+				Card card = cardMap.get(label);
 				frame.getCollectionPanel().addCard(card);
 			}
 		});
@@ -247,7 +245,7 @@ public class CardPanel extends JPanel {
 		JMenuItem addToDeck = new JMenuItem("Add to deck");
 		addToDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Card card = cards.get(label);
+				Card card = cardMap.get(label);
 				//TODO add to deck
 			}
 		});
@@ -275,6 +273,6 @@ public class CardPanel extends JPanel {
 	}
 
 	public HashMap<JLabel, Card> getCards() {
-		return cards;
+		return cardMap;
 	}
 }

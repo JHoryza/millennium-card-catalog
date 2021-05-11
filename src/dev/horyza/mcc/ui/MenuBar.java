@@ -24,7 +24,7 @@ public class MenuBar extends JMenuBar {
 		JMenuItem viewCatalog = new JMenuItem("View Catalog");
 		viewCatalog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.cardScrollPane.setViewportView(frame.getCatalogPanel());
+				frame.getCardScrollPane().setViewportView(frame.getCatalogPanel());
 				
 			}
 		});
@@ -33,7 +33,7 @@ public class MenuBar extends JMenuBar {
 		JMenuItem viewCollection = new JMenuItem("View Collection");
 		viewCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.cardScrollPane.setViewportView(frame.getCollectionPanel());
+				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
 				
 			}
 		});

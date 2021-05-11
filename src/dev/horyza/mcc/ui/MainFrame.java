@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 
 import dev.horyza.mcc.services.DatabaseHandler;
 
@@ -17,10 +16,10 @@ public class MainFrame extends JFrame {
 	private MenuBar menuBar = new MenuBar(this);
 	private FilterPanel filterPanel = new FilterPanel(this);
 	private InfoPanel infoPanel = new InfoPanel();
-	private CardPanel catalogPanel = new CardPanel(this, "catalog");
-	private CardPanel collectionPanel = new CardPanel(this, "collection");
+	private CardPanel catalogPanel = new CardPanel(this, CardList.CATALOG);
+	private CardPanel collectionPanel = new CardPanel(this, CardList.COLLECTION);
 	private DeckPanel deckPanel = new DeckPanel(this);
-	public JScrollPane cardScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	private JScrollPane cardScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	
 	public MainFrame() {
 		setTitle("YU-GI-OH");
@@ -63,5 +62,26 @@ public class MainFrame extends JFrame {
 	
 	public CardPanel getCollectionPanel() {
 		return collectionPanel;
+	}
+	
+	public JScrollPane getCardScrollPane() {
+		return cardScrollPane;
+	}
+	
+	protected enum CardList {
+		
+		CATALOG("catalog"),
+		COLLECTION("collection"),
+		DECK("deck");
+		
+		private final String tableName;
+		
+		CardList(String tableName) {
+			this.tableName = tableName;
+		}
+		
+		public String getTableName() {
+			return tableName;
+		}
 	}
 }

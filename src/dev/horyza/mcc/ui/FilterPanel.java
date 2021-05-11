@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Filter;
 import dev.horyza.mcc.util.WrapLayout;
 import javax.swing.JButton;
