@@ -133,10 +133,10 @@ public class CardPanel extends JPanel {
 
 		Map<Supplier<Boolean>, Predicate<JLabel>> map = new HashMap<>();
 		map.put(() -> filter.getName() != null, c -> cardMap.get(c).getName().contains(filter.getName()));
-		map.put(() -> filter.getType() != null, c -> cardMap.get(c).getType().equalsIgnoreCase(filter.getType()) && cardMap.get(c).getType() != null);
-		map.put(() -> filter.getAttribute() != null, c -> cardMap.get(c).getAttribute().equalsIgnoreCase(filter.getAttribute()) && cardMap.get(c).getAttribute() != null);
-		map.put(() -> filter.getRace() != null, c -> cardMap.get(c).getRace().equalsIgnoreCase(filter.getRace()) && cardMap.get(c).getRace() != null);
-		map.put(() -> filter.getArchetype() != null, c -> cardMap.get(c).getArchetype().equalsIgnoreCase(filter.getArchetype()) && cardMap.get(c).getArchetype() != null);
+		map.put(() -> filter.getType() != null, c -> cardMap.get(c).getType().equalsIgnoreCase(filter.getType()) && !cardMap.get(c).getType().equalsIgnoreCase(""));
+		map.put(() -> filter.getAttribute() != null, c -> cardMap.get(c).getAttribute().equalsIgnoreCase(filter.getAttribute()) && !cardMap.get(c).getAttribute().equalsIgnoreCase(""));
+		map.put(() -> filter.getRace() != null, c -> cardMap.get(c).getRace().equalsIgnoreCase(filter.getRace()) && !cardMap.get(c).getRace().equalsIgnoreCase(""));
+		map.put(() -> filter.getArchetype() != null, c -> cardMap.get(c).getArchetype().equalsIgnoreCase(filter.getArchetype()) && !cardMap.get(c).getArchetype().equalsIgnoreCase(""));
 		map.put(() -> filter.getAtkMin() != -1, c -> cardMap.get(c).getAtk() >= filter.getAtkMin() && cardMap.get(c).getAtk() != -1);
 		map.put(() -> filter.getAtkMax() != -1, c -> cardMap.get(c).getAtk() <= filter.getAtkMax() && cardMap.get(c).getAtk() != -1);
 		map.put(() -> filter.getDefMin() != -1, c -> cardMap.get(c).getDef() >= filter.getDefMin() && cardMap.get(c).getDef() != -1);

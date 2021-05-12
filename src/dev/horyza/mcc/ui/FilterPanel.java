@@ -144,7 +144,7 @@ public class FilterPanel extends JPanel {
 		add(defMaxText);
 
 		// Level
-		Integer[] levels = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		Integer[] levels = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 		JLabel levelLabel = new JLabel();
 		levelLabel.setText("Level:");
 		add(levelLabel);
@@ -154,7 +154,7 @@ public class FilterPanel extends JPanel {
 		add(levelMinCombo);
 		add(new JLabel("-"));
 		JComboBox levelMaxCombo = new JComboBox(levels);
-		levelMaxCombo.setSelectedIndex(9);
+		levelMaxCombo.setSelectedIndex(12);
 		levelMaxCombo.setPreferredSize(new Dimension(50, 25));
 		add(levelMaxCombo);
 
@@ -174,7 +174,6 @@ public class FilterPanel extends JPanel {
 				int defMax = defMaxText.getText().equalsIgnoreCase("") ? -1 : Integer.parseInt(String.valueOf(defMaxText.getText()));
 				int levelMin = Integer.parseInt(String.valueOf(levelMinCombo.getSelectedItem()));
 				int levelMax = Integer.parseInt(String.valueOf(levelMaxCombo.getSelectedItem()));
-				System.out.println(name + " " + type + " " + attribute + " " + race + " " + archetype + " " + atkMin + " " + atkMax + " " + defMin + " " + defMax + " " + levelMin + " " + levelMax);
 				Filter filter = new Filter(name, type, attribute, race, archetype, atkMin, atkMax, defMin, defMax, levelMin, levelMax);
 				frame.getCatalogPanel().filterCards(filter);
 			}
