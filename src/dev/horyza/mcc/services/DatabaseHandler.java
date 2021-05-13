@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import dev.horyza.mcc.model.Card;
@@ -62,15 +64,16 @@ public class DatabaseHandler {
 		return cardList;
 	}
 
-	public List<Card> selectFiltered(String table, List<Integer> list) {
+	public List<Card> selectFiltered(String table, HashMap<Integer, Integer> list) {
 		List<Card> cardList = new ArrayList<Card>();
 		String sql = "SELECT * FROM " + table + " WHERE id IN (";
 
-		for (int i = 0; i < list.size(); i++) {
-			if (i == list.size() - 1)
-				sql += list.get(i) + ")";
+		List<Integer> idList = new ArrayList<Integer>(list.keySet());
+		for (int i = 0; i < idList.size(); i++) {
+			if (i == idList.size() - 1)
+				sql += idList.get(i) + ")";
 			else
-				sql += list.get(i) + ",";
+				sql += idList.get(i) + ",";
 		}
 
 		try (Connection conn = this.connect();
@@ -89,7 +92,10 @@ public class DatabaseHandler {
 				int atk = rs.getString("atk") == null ? -1 : Integer.parseInt(rs.getString("atk"));
 				int def = rs.getString("def") == null ? -1 : Integer.parseInt(rs.getString("def"));
 				int level = rs.getString("level") == null ? -1 : Integer.parseInt(rs.getString("level"));
-				cardList.add(new Card(id, name, desc, type, attribute, race, archetype, 0, 0, 0));
+				int quantity = list.get(id);
+				for (int i = 0; i < quantity; i++) {
+					cardList.add(new Card(id, name, desc, type, attribute, race, archetype, 0, 0, 0));
+				}
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

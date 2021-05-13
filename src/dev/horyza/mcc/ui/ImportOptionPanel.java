@@ -2,6 +2,7 @@ package dev.horyza.mcc.ui;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -32,18 +33,29 @@ public class ImportOptionPanel extends JOptionPane {
 		int choice = showConfirmDialog(null, contentPane, "Import Collection", JOptionPane.OK_CANCEL_OPTION);
 		
 		if (choice == JOptionPane.OK_OPTION) {
-			String ids[] = input.getText().split("\\r?\\n");
+			String cards[] = input.getText().split("\\r?\\n");
+			
+			HashMap<Integer, Integer> cardMap = new HashMap<>();
+			
 			List<Integer> list = new ArrayList<Integer>();
-			for (String id : ids) {
+			for (String card : cards) {
 				try {
-					list.add(Integer.parseInt(id));
+					String values[] = card.split("\t");
+					int id = Integer.parseInt(values[0]);
+					int quantity = values[1] == null ? 1 : Integer.parseInt(values[1]);
+					
+					if (cardMap.containsKey(id)) {
+						cardMap.replace(id, cardMap.get(id) + quantity);
+					} else {
+						cardMap.put(id, quantity);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			DatabaseHandler db = new DatabaseHandler();
-			List<Card> cards = db.selectFiltered(CardList.CATALOG.getTableName(), list);
-			frame.getCollectionPanel().loadCards(cards);
+			List<Card> cardList = db.selectFiltered(CardList.CATALOG.getTableName(), cardMap);
+			frame.getCollectionPanel().loadCards(cardList);
 		}
 	}
 }
