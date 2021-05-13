@@ -16,29 +16,42 @@ public class MenuBar extends JMenuBar {
 	public MenuBar(MainFrame frame) {
 		this.frame = frame;
 		add(getFileMenu());
+		add(getViewMenu());
 	}
 	
 	private JMenu getFileMenu() {
 		JMenu fileMenu = new JMenu("File");
 		
-		JMenuItem viewCatalog = new JMenuItem("View Catalog");
-		viewCatalog.addActionListener(new ActionListener() {
+		JMenuItem importCollection = new JMenuItem("Import Collection");
+		importCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.getCardScrollPane().setViewportView(frame.getCatalogPanel());
-				
+				new ImportOptionPanel(frame);
 			}
 		});
-		fileMenu.add(viewCatalog);
-		
-		JMenuItem viewCollection = new JMenuItem("View Collection");
-		viewCollection.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
-				
-			}
-		});
-		fileMenu.add(viewCollection);
+		fileMenu.add(importCollection);
 		
 		return fileMenu;
+	}
+	
+	private JMenu getViewMenu() {
+		JMenu viewMenu = new JMenu("View");
+		
+		JMenuItem viewCatalog = new JMenuItem("Catalog");
+		viewCatalog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.getCardScrollPane().setViewportView(frame.getCatalogPanel());	
+			}
+		});
+		viewMenu.add(viewCatalog);
+		
+		JMenuItem viewCollection = new JMenuItem("Collection");
+		viewCollection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());	
+			}
+		});
+		viewMenu.add(viewCollection);
+		
+		return viewMenu;
 	}
 }

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Filter;
@@ -33,10 +34,10 @@ public class DatabaseHandler {
 		return conn;
 	}
 
-	public ArrayList<Card> selectAll(String table) {
-		ArrayList<Card> cardList = new ArrayList<Card>();
+	public List<Card> selectAll(String table) {
+		List<Card> cardList = new ArrayList<Card>();
 		String sql = "SELECT * FROM " + table;
-		
+
 		try (Connection conn = this.connect();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql)) {
@@ -61,10 +62,17 @@ public class DatabaseHandler {
 		return cardList;
 	}
 
-	public ArrayList<Card> selectFiltered(String table, Filter filter) {
-		ArrayList<Card> cardList = new ArrayList<Card>();
-		String sql = "SELECT * FROM " + table;
-		
+	public List<Card> selectFiltered(String table, List<Integer> list) {
+		List<Card> cardList = new ArrayList<Card>();
+		String sql = "SELECT * FROM " + table + " WHERE id IN (";
+
+		for (int i = 0; i < list.size(); i++) {
+			if (i == list.size() - 1)
+				sql += list.get(i) + ")";
+			else
+				sql += list.get(i) + ",";
+		}
+
 		try (Connection conn = this.connect();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql)) {

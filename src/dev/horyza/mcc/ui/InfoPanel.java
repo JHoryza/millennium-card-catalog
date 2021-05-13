@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import dev.horyza.mcc.model.Card;
@@ -36,24 +37,23 @@ public class InfoPanel extends JPanel {
 		// Card image
 		cardImage.setIcon(new ImageIcon(MainFrame.class.getResource("/dev/horyza/mcc/resources/10000.jpg")));
 		
-		cardImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+		cardImage.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		add(cardImage);
 
 		// Card name
 		cardName.setPreferredSize(new Dimension(250, 50));
 		cardName.setFont(new Font("Arial", Font.PLAIN, 20));
 		cardName.setText("Ten Thousand Dragon");
-		cardName.setAlignmentX(Component.CENTER_ALIGNMENT);
+		cardName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		add(cardName);
 
 		// Card description
 		cardDesc.setBackground(Color.GRAY);
 		cardDesc.setWrapStyleWord(true);
 		cardDesc.setLineWrap(true);
-		cardDesc.setAutoscrolls(true);
 		cardDesc.setEditable(false);
 		cardDesc.setText("");
-		cardDesc.setAlignmentX(Component.CENTER_ALIGNMENT);
+		cardDesc.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
 		add(cardDesc);
 	}
 	

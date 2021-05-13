@@ -44,7 +44,7 @@ public class CardPanel extends JPanel {
 		loadCards(db.selectAll(cardList.getTableName()));
 	}
 
-	public void loadCards(ArrayList<Card> cards) {
+	public void loadCards(List<Card> cards) {
 		// Load cards
 		for (Card card : cards) {
 			try {

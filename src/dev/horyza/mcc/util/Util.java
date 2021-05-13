@@ -14,15 +14,16 @@ public class Util {
 
 	public static void scaleText(JComponent component, String text, float minSize, float maxSize) {
 		JComponent parent = (JComponent) component.getParent();
-		Font myFont = new Font("Arial", Font.PLAIN, component.getFont().getSize());
-		FontMetrics myMetrics = new FontMetrics(myFont) {};
+		FontMetrics myMetrics = new FontMetrics(component.getFont()) {};
 		Rectangle2D boundsOfString = myMetrics.getStringBounds(text, null);
-		int width = (int) boundsOfString.getWidth();
-		int height = (int) boundsOfString.getHeight();
-		double ratio = (int) (parent.getSize().getHeight() / parent.getPreferredSize().getHeight());
+		int textWidth = (int) boundsOfString.getWidth();
+		int textHeight = (int) boundsOfString.getHeight();
+		double ratio = parent.getSize().getHeight() / parent.getPreferredSize().getHeight();
+		
 		
 		component.setSize(new Dimension(250, (int) (component.getSize().getHeight() * ratio)));
-		if ((width * height) > (component.getSize().getHeight() * component.getPreferredSize().getWidth() * 0.75)) {
+		System.out.println((textWidth * textHeight) + " = " + (component.getSize().getHeight() * component.getPreferredSize().getWidth() * 0.5));
+		if ((textWidth * textHeight) > (component.getSize().getHeight() * component.getPreferredSize().getWidth() * 0.5)) {
 			component.setFont(component.getFont().deriveFont(minSize));
 		} else {
 			component.setFont(component.getFont().deriveFont(maxSize));
