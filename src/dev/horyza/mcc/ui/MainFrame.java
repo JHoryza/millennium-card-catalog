@@ -69,6 +69,10 @@ public class MainFrame extends JFrame {
 		return cardScrollPane;
 	}
 	
+	public DeckPanel getDeckPanel() {
+		return deckPanel;
+	}
+	
 	public CardList getActvCrdLst() {
 		return actvCrdLst;
 	}

@@ -185,7 +185,7 @@ public class CardPanel extends JPanel {
 		addToDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Card card = cardMap.get(label);
-				// TODO add to deck
+				frame.getDeckPanel().addCards(Arrays.asList(card));
 			}
 		});
 		return addToDeck;
