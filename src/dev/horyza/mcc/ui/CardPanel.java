@@ -37,6 +37,7 @@ public class CardPanel extends JPanel {
 	private DatabaseHandler db = new DatabaseHandler();
 	private CardList cardList;
 	private HashMap<JLabel, Card> cardMap = new HashMap<JLabel, Card>();
+	private List<Card> cards = new ArrayList<>();
 
 	public CardPanel(MainFrame frame, CardList cardList) {
 		this.frame = frame;
@@ -46,15 +47,15 @@ public class CardPanel extends JPanel {
 		addCards(db.selectAll(cardList.getTableName()));
 	}
 
-	public void addCards(List<Card> cards) {
-		for (int i = 0; i < cards.size(); i++) {
-			Card card = cards.get(i);
+	public void addCards(List<Card> cardsToAdd) {
+		cards.addAll(cardsToAdd);
+		for (int i = 0; i < cardsToAdd.size(); i++) {
+			Card card = cardsToAdd.get(i);
 			JLabel cardLabel = createLabel(card);
 
-			if (i != 0) {
-				if (cards.get(i).getId() == cards.get(i - 1).getId()) {
-					cardLabel.setVisible(false);
-				}
+			List<Card> temp = cardsToAdd.subList(0, i);
+			if (temp.contains(card)) {
+				continue;
 			}
 
 			add(cardLabel);
@@ -82,13 +83,7 @@ public class CardPanel extends JPanel {
 			public void mouseEntered(MouseEvent evt) {
 				frame.getInfoPanel().updateInfo(card);
 				if (cardList == CardList.COLLECTION) {
-					int numCopies = 0;
-					for (int i = 0; i < cardMap.values().size(); i++) {
-						List<Card> cards = new ArrayList<Card>(cardMap.values());
-						if (cards.get(i).getId() == card.getId())
-							numCopies++;
-					}
-					cardLabel.setToolTipText("Copies: " + numCopies);
+					cardLabel.setToolTipText("Copies: " + Collections.frequency(cards, card));
 				}
 			}
 

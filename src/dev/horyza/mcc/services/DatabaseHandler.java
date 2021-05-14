@@ -93,8 +93,9 @@ public class DatabaseHandler {
 				int def = rs.getString("def") == null ? -1 : Integer.parseInt(rs.getString("def"));
 				int level = rs.getString("level") == null ? -1 : Integer.parseInt(rs.getString("level"));
 				int quantity = cardMap.get(id);
+				Card card = new Card(id, name, desc, type, attribute, race, archetype, atk, def, level);
 				for (int i = 0; i < quantity; i++) {
-					cardList.add(new Card(id, name, desc, type, attribute, race, archetype, atk, def, level));
+					cardList.add(card);
 				}
 			}
 		} catch (SQLException e) {
