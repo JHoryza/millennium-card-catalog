@@ -47,12 +47,12 @@ public class DatabaseHandler {
 			// loop through the result set
 			while (rs.next()) {
 				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				String desc = rs.getString("desc");
-				String type = rs.getString("type");
-				String attribute = rs.getString("attribute");
-				String race = rs.getString("race");
-				String archetype = rs.getString("archetype");
+				String name = rs.getString("name") == null ? "" : rs.getString("name");
+				String desc = rs.getString("desc") == null ? "" : rs.getString("desc");
+				String type = rs.getString("type") == null ? "" : rs.getString("type");
+				String attribute = rs.getString("attribute") == null ? "" : rs.getString("attribute");
+				String race = rs.getString("race") == null ? "" : rs.getString("race");
+				String archetype = rs.getString("archetype") == null ? "" : rs.getString("archetype");
 				int atk = rs.getString("atk") == null ? -1 : Integer.parseInt(rs.getString("atk"));
 				int def = rs.getString("def") == null ? -1 : Integer.parseInt(rs.getString("def"));
 				int level = rs.getString("level") == null ? -1 : Integer.parseInt(rs.getString("level"));
@@ -64,11 +64,11 @@ public class DatabaseHandler {
 		return cardList;
 	}
 
-	public List<Card> selectFiltered(String table, HashMap<Integer, Integer> list) {
+	public List<Card> selectFiltered(String table, HashMap<Integer, Integer> cardMap) {
 		List<Card> cardList = new ArrayList<Card>();
 		String sql = "SELECT * FROM " + table + " WHERE id IN (";
 
-		List<Integer> idList = new ArrayList<Integer>(list.keySet());
+		List<Integer> idList = new ArrayList<Integer>(cardMap.keySet());
 		for (int i = 0; i < idList.size(); i++) {
 			if (i == idList.size() - 1)
 				sql += idList.get(i) + ")";
@@ -83,18 +83,18 @@ public class DatabaseHandler {
 			// loop through the result set
 			while (rs.next()) {
 				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				String desc = rs.getString("desc");
-				String type = rs.getString("type");
-				String attribute = rs.getString("attribute");
-				String race = rs.getString("race");
-				String archetype = rs.getString("archetype");
+				String name = rs.getString("name") == null ? "" : rs.getString("name");
+				String desc = rs.getString("desc") == null ? "" : rs.getString("desc");
+				String type = rs.getString("type") == null ? "" : rs.getString("type");
+				String attribute = rs.getString("attribute") == null ? "" : rs.getString("attribute");
+				String race = rs.getString("race") == null ? "" : rs.getString("race");
+				String archetype = rs.getString("archetype") == null ? "" : rs.getString("archetype");
 				int atk = rs.getString("atk") == null ? -1 : Integer.parseInt(rs.getString("atk"));
 				int def = rs.getString("def") == null ? -1 : Integer.parseInt(rs.getString("def"));
 				int level = rs.getString("level") == null ? -1 : Integer.parseInt(rs.getString("level"));
-				int quantity = list.get(id);
+				int quantity = cardMap.get(id);
 				for (int i = 0; i < quantity; i++) {
-					cardList.add(new Card(id, name, desc, type, attribute, race, archetype, 0, 0, 0));
+					cardList.add(new Card(id, name, desc, type, attribute, race, archetype, atk, def, level));
 				}
 			}
 		} catch (SQLException e) {

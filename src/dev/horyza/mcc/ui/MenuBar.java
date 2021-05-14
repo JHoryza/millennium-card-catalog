@@ -8,6 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import dev.horyza.mcc.model.Card;
+import dev.horyza.mcc.ui.MainFrame.CardList;
 
 public class MenuBar extends JMenuBar {
 
@@ -40,6 +41,7 @@ public class MenuBar extends JMenuBar {
 		viewCatalog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.getCardScrollPane().setViewportView(frame.getCatalogPanel());	
+				frame.setActvCrdLst(CardList.CATALOG);
 			}
 		});
 		viewMenu.add(viewCatalog);
@@ -47,7 +49,8 @@ public class MenuBar extends JMenuBar {
 		JMenuItem viewCollection = new JMenuItem("Collection");
 		viewCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());	
+				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
+				frame.setActvCrdLst(CardList.COLLECTION);
 			}
 		});
 		viewMenu.add(viewCollection);

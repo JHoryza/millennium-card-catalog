@@ -20,6 +20,7 @@ public class MainFrame extends JFrame {
 	private CardPanel collectionPanel = new CardPanel(this, CardList.COLLECTION);
 	private DeckPanel deckPanel = new DeckPanel(this);
 	private JScrollPane cardScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	private CardList actvCrdLst = CardList.CATALOG;
 	
 	public MainFrame() {
 		setTitle("YU-GI-OH");
@@ -66,6 +67,14 @@ public class MainFrame extends JFrame {
 	
 	public JScrollPane getCardScrollPane() {
 		return cardScrollPane;
+	}
+	
+	public CardList getActvCrdLst() {
+		return actvCrdLst;
+	}
+	
+	public void setActvCrdLst(CardList cardList) {
+		this.actvCrdLst = cardList;
 	}
 	
 	protected enum CardList {

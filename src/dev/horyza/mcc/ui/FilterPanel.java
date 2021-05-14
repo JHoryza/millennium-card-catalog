@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import dev.horyza.mcc.model.Filter;
+import dev.horyza.mcc.ui.MainFrame.CardList;
 import dev.horyza.mcc.util.WrapLayout;
 import javax.swing.JButton;
 
@@ -175,7 +176,11 @@ public class FilterPanel extends JPanel {
 				int levelMin = Integer.parseInt(String.valueOf(levelMinCombo.getSelectedItem()));
 				int levelMax = Integer.parseInt(String.valueOf(levelMaxCombo.getSelectedItem()));
 				Filter filter = new Filter(name, type, attribute, race, archetype, atkMin, atkMax, defMin, defMax, levelMin, levelMax);
-				frame.getCatalogPanel().filterCards(filter);
+				if (frame.getActvCrdLst() == CardList.CATALOG) {
+					frame.getCatalogPanel().filterCards(filter);
+				} else if (frame.getActvCrdLst() == CardList.COLLECTION) {
+					frame.getCollectionPanel().filterCards(filter);
+				}
 			}
 		});
 		add(applyButton);

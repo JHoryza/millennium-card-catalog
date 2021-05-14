@@ -22,40 +22,37 @@ public class ImportOptionPanel extends JOptionPane {
 	public ImportOptionPanel(MainFrame frame) {
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		
+
 		JTextArea input = new JTextArea(20, 20);
 		input.setWrapStyleWord(true);
 		input.setLineWrap(true);
-		
+
 		contentPane.add(new JLabel("Enter card ID's (limit 1 per line):"));
 		contentPane.add(new JScrollPane(input));
-		
+
 		int choice = showConfirmDialog(null, contentPane, "Import Collection", JOptionPane.OK_CANCEL_OPTION);
-		
+
 		if (choice == JOptionPane.OK_OPTION) {
-			String cards[] = input.getText().split("\\r?\\n");
-			
+			String inputLine[] = input.getText().split("\\r?\\n");
 			HashMap<Integer, Integer> cardMap = new HashMap<>();
-			
-			List<Integer> list = new ArrayList<Integer>();
-			for (String card : cards) {
+			for (String line : inputLine) {
 				try {
-					String values[] = card.split("\t");
+					String values[] = line.split("\t");
 					int id = Integer.parseInt(values[0]);
-					int quantity = values[1] == null ? 1 : Integer.parseInt(values[1]);
-					
-					if (cardMap.containsKey(id)) {
+					int quantity = values.length == 1 ? 1 : Integer.parseInt(values[1]);
+
+					if (cardMap.containsKey(id))
 						cardMap.replace(id, cardMap.get(id) + quantity);
-					} else {
+					else
 						cardMap.put(id, quantity);
-					}
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			DatabaseHandler db = new DatabaseHandler();
 			List<Card> cardList = db.selectFiltered(CardList.CATALOG.getTableName(), cardMap);
-			frame.getCollectionPanel().loadCards(cardList);
+			frame.getCollectionPanel().addCards(cardList);
 		}
 	}
 }
