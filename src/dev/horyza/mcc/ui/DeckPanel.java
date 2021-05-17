@@ -2,15 +2,12 @@ package dev.horyza.mcc.ui;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.ui.MainFrame.CardList;
 import dev.horyza.mcc.util.OverlapLayout;
 

@@ -66,6 +66,7 @@ public class MainFrame extends JFrame {
 		
 		// Deck panel
 		deckPanel = new DeckPanel(this);
+		deckPanel.setVisible(false);
 		contentPane.add(deckPanel, BorderLayout.SOUTH);
 
 		return contentPane;
