@@ -40,11 +40,9 @@ public class CardPanel extends JPanel {
 	private HashMap<JLabel, Card> cardMap = new HashMap<JLabel, Card>();
 	private List<Card> cards = new ArrayList<>();
 
-	public CardPanel(MainFrame frame, LayoutManager layout, CardList cardList) {
+	public CardPanel(MainFrame frame, CardList cardList) {
 		this.frame = frame;
 		this.cardList = cardList;
-		setLayout(layout);
-		setBackground(Color.DARK_GRAY);
 		addCards(db.selectAll(cardList.getTableName()));
 	}
 
@@ -186,7 +184,8 @@ public class CardPanel extends JPanel {
 		addToDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Card card = cardMap.get(label);
-				frame.getDeckPanel().addCards(Arrays.asList(card));
+				frame.getDeckPanel().incrementCount(cardMap.get(label).getType(), 1);
+				frame.getDeckPanel().getCardPanel().addCards(Arrays.asList(card));
 			}
 		});
 		return addToDeck;
@@ -206,9 +205,14 @@ public class CardPanel extends JPanel {
 		JMenuItem removeFromDeck = new JMenuItem("Remove from deck");
 		removeFromDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.getDeckPanel().decrementCount(cardMap.get(label).getType(), 1);
 				removeCard(label);
 			}
 		});
 		return removeFromDeck;
+	}
+	
+	public List<Card> getCards() {
+		return cards;
 	}
 }

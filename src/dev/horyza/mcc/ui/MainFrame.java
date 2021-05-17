@@ -18,12 +18,12 @@ public class MainFrame extends JFrame {
 	
 	private DatabaseHandler db = new DatabaseHandler();
 	private MenuBar menuBar = new MenuBar(this);
-	private FilterPanel filterPanel = new FilterPanel(this);
-	private InfoPanel infoPanel = new InfoPanel();
-	private CardPanel catalogPanel = new CardPanel(this, new WrapLayout(FlowLayout.CENTER, 5, 5), CardList.CATALOG);
-	private CardPanel collectionPanel = new CardPanel(this, new WrapLayout(FlowLayout.CENTER, 5, 5), CardList.COLLECTION);
-	private CardPanel deckPanel = new CardPanel(this, new OverlapLayout(new Point(20, 0)), CardList.DECK);
-	private JScrollPane cardScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	private FilterPanel filterPanel;
+	private InfoPanel infoPanel;
+	private CardPanel catalogPanel;
+	private CardPanel collectionPanel;
+	private DeckPanel deckPanel;
+	private JScrollPane cardScrollPane;
 	private CardList actvCrdLst = CardList.CATALOG;
 	
 	public MainFrame() {
@@ -42,20 +42,31 @@ public class MainFrame extends JFrame {
 		contentPane.setOpaque(true);
 
 		// Filter panel
+		filterPanel = new FilterPanel(this);
 		contentPane.add(filterPanel, BorderLayout.NORTH);
 
 		// Info panel
+		infoPanel = new InfoPanel();
 		contentPane.add(infoPanel, BorderLayout.WEST);
 
 		// Card panel
-		cardScrollPane.getVerticalScrollBar().setUnitIncrement(32);
+		catalogPanel = new CardPanel(this, CardList.CATALOG);
+		catalogPanel.setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		catalogPanel.setBackground(Color.DARK_GRAY);
+		
+		// Collection panel
+		collectionPanel = new CardPanel(this, CardList.COLLECTION);
+		collectionPanel.setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
+		collectionPanel.setBackground(Color.DARK_GRAY);
+		
+		// Card Scroll Pane
+		cardScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		cardScrollPane.getVerticalScrollBar().setUnitIncrement(32);
 		contentPane.add(cardScrollPane, BorderLayout.CENTER);
 		
 		// Deck panel
-		JScrollPane deckScrollPane = new JScrollPane(deckPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		deckPanel.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(deckScrollPane, BorderLayout.SOUTH);
+		deckPanel = new DeckPanel(this);
+		contentPane.add(deckPanel, BorderLayout.SOUTH);
 
 		return contentPane;
 	}
@@ -76,7 +87,9 @@ public class MainFrame extends JFrame {
 		return cardScrollPane;
 	}
 	
-	public CardPanel getDeckPanel() {
+	
+	
+	public DeckPanel getDeckPanel() {
 		return deckPanel;
 	}
 	
