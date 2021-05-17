@@ -52,7 +52,7 @@ public class InfoPanel extends JPanel {
 		cardDesc.setWrapStyleWord(true);
 		cardDesc.setLineWrap(true);
 		cardDesc.setEditable(false);
-		cardDesc.setText("");
+		cardDesc.setText("Cannot be Normal Summoned/Set. Must be Special Summoned by Tributing monsters you control whose combined ATK & DEF is 10,000 or more. If Summoned this way, the ATK/DEF of this card becomes 10,000.");
 		cardDesc.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
 		add(cardDesc);
 	}

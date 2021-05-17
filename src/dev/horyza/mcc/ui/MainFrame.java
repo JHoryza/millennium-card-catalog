@@ -3,12 +3,16 @@ package dev.horyza.mcc.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import dev.horyza.mcc.services.DatabaseHandler;
+import dev.horyza.mcc.util.OverlapLayout;
+import dev.horyza.mcc.util.WrapLayout;
 
 public class MainFrame extends JFrame {
 	
@@ -16,9 +20,9 @@ public class MainFrame extends JFrame {
 	private MenuBar menuBar = new MenuBar(this);
 	private FilterPanel filterPanel = new FilterPanel(this);
 	private InfoPanel infoPanel = new InfoPanel();
-	private CardPanel catalogPanel = new CardPanel(this, CardList.CATALOG);
-	private CardPanel collectionPanel = new CardPanel(this, CardList.COLLECTION);
-	private DeckPanel deckPanel = new DeckPanel(this);
+	private CardPanel catalogPanel = new CardPanel(this, new WrapLayout(FlowLayout.CENTER, 5, 5), CardList.CATALOG);
+	private CardPanel collectionPanel = new CardPanel(this, new WrapLayout(FlowLayout.CENTER, 5, 5), CardList.COLLECTION);
+	private CardPanel deckPanel = new CardPanel(this, new OverlapLayout(new Point(20, 0)), CardList.DECK);
 	private JScrollPane cardScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	private CardList actvCrdLst = CardList.CATALOG;
 	
@@ -45,10 +49,13 @@ public class MainFrame extends JFrame {
 
 		// Card panel
 		cardScrollPane.getVerticalScrollBar().setUnitIncrement(32);
+		catalogPanel.setBackground(Color.DARK_GRAY);
 		contentPane.add(cardScrollPane, BorderLayout.CENTER);
 		
 		// Deck panel
-		contentPane.add(deckPanel, BorderLayout.SOUTH);
+		JScrollPane deckScrollPane = new JScrollPane(deckPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		deckPanel.setBackground(Color.LIGHT_GRAY);
+		contentPane.add(deckScrollPane, BorderLayout.SOUTH);
 
 		return contentPane;
 	}
@@ -69,7 +76,7 @@ public class MainFrame extends JFrame {
 		return cardScrollPane;
 	}
 	
-	public DeckPanel getDeckPanel() {
+	public CardPanel getDeckPanel() {
 		return deckPanel;
 	}
 	

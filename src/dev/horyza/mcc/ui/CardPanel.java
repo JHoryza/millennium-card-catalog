@@ -3,6 +3,7 @@ package dev.horyza.mcc.ui;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -39,10 +40,10 @@ public class CardPanel extends JPanel {
 	private HashMap<JLabel, Card> cardMap = new HashMap<JLabel, Card>();
 	private List<Card> cards = new ArrayList<>();
 
-	public CardPanel(MainFrame frame, CardList cardList) {
+	public CardPanel(MainFrame frame, LayoutManager layout, CardList cardList) {
 		this.frame = frame;
 		this.cardList = cardList;
-		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
+		setLayout(layout);
 		setBackground(Color.DARK_GRAY);
 		addCards(db.selectAll(cardList.getTableName()));
 	}
@@ -72,7 +73,7 @@ public class CardPanel extends JPanel {
 			cardLabel.setIcon(scaledImage);
 			cardLabel.addMouseListener(createMouseAdapter(cardLabel, card));
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
 		return cardLabel;
 	}
@@ -205,7 +206,7 @@ public class CardPanel extends JPanel {
 		JMenuItem removeFromDeck = new JMenuItem("Remove from deck");
 		removeFromDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO remove from deck
+				removeCard(label);
 			}
 		});
 		return removeFromDeck;

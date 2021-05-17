@@ -22,7 +22,6 @@ public class Util {
 		
 		
 		component.setSize(new Dimension(250, (int) (component.getSize().getHeight() * ratio)));
-		System.out.println((textWidth * textHeight) + " = " + (component.getSize().getHeight() * component.getPreferredSize().getWidth() * 0.5));
 		if ((textWidth * textHeight) > (component.getSize().getHeight() * component.getPreferredSize().getWidth() * 0.5)) {
 			component.setFont(component.getFont().deriveFont(minSize));
 		} else {

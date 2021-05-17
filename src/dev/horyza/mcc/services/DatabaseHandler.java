@@ -59,7 +59,7 @@ public class DatabaseHandler {
 				cardList.add(new Card(id, name, desc, type, attribute, race, archetype, atk, def, level));
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			
 		}
 		return cardList;
 	}
@@ -99,7 +99,7 @@ public class DatabaseHandler {
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			
 		}
 		return cardList;
 	}

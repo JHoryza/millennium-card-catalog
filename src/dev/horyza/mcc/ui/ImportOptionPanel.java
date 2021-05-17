@@ -53,6 +53,8 @@ public class ImportOptionPanel extends JOptionPane {
 			DatabaseHandler db = new DatabaseHandler();
 			List<Card> cardList = db.selectFiltered(CardList.CATALOG.getTableName(), cardMap);
 			frame.getCollectionPanel().addCards(cardList);
+			frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
+			frame.setActvCrdLst(CardList.COLLECTION);
 		}
 	}
 }
