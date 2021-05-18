@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import dev.horyza.mcc.model.Filter;
-import dev.horyza.mcc.ui.MainFrame.CardList;
+import dev.horyza.mcc.ui.MainFrame.CardType;
 import dev.horyza.mcc.util.WrapLayout;
 import javax.swing.JButton;
 
@@ -185,9 +185,9 @@ public class FilterPanel extends JPanel {
 				int levelMax = Integer.parseInt(String.valueOf(levelMaxCombo.getSelectedItem()));
 				Filter filter = new Filter(name, type, attribute, race, archetype, atkMin, atkMax, defMin, defMax,
 						levelMin, levelMax);
-				if (frame.getActvCrdLst() == CardList.CATALOG) {
+				if (frame.getActiveCardType() == CardType.CATALOG) {
 					frame.getCatalogPanel().filterCards(filter);
-				} else if (frame.getActvCrdLst() == CardList.COLLECTION) {
+				} else if (frame.getActiveCardType() == CardType.COLLECTION) {
 					frame.getCollectionPanel().filterCards(filter);
 				}
 			}
@@ -212,9 +212,9 @@ public class FilterPanel extends JPanel {
 				levelMaxCombo.setSelectedIndex(12);
 				Filter filter = new Filter(null, null, null, null, null, -1, -1, -1, -1,
 						-1, -1);
-				if (frame.getActvCrdLst() == CardList.CATALOG) {
+				if (frame.getActiveCardType() == CardType.CATALOG) {
 					frame.getCatalogPanel().filterCards(filter);
-				} else if (frame.getActvCrdLst() == CardList.COLLECTION) {
+				} else if (frame.getActiveCardType() == CardType.COLLECTION) {
 					frame.getCollectionPanel().filterCards(filter);
 				}
 			}

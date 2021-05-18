@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
 	private CardPanel collectionPanel;
 	private DeckPanel deckPanel;
 	private JScrollPane cardScrollPane;
-	private CardList actvCrdLst = CardList.CATALOG;
+	private CardType activeCardType = CardType.CATALOG;
 	
 	public MainFrame() {
 		setTitle("YU-GI-OH");
@@ -50,12 +50,12 @@ public class MainFrame extends JFrame {
 		contentPane.add(infoPanel, BorderLayout.WEST);
 
 		// Card panel
-		catalogPanel = new CardPanel(this, CardList.CATALOG);
+		catalogPanel = new CardPanel(this, CardType.CATALOG);
 		catalogPanel.setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		catalogPanel.setBackground(Color.DARK_GRAY);
 		
 		// Collection panel
-		collectionPanel = new CardPanel(this, CardList.COLLECTION);
+		collectionPanel = new CardPanel(this, CardType.COLLECTION);
 		collectionPanel.setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		collectionPanel.setBackground(Color.DARK_GRAY);
 		
@@ -94,15 +94,15 @@ public class MainFrame extends JFrame {
 		return deckPanel;
 	}
 	
-	public CardList getActvCrdLst() {
-		return actvCrdLst;
+	public CardType getActiveCardType() {
+		return activeCardType;
 	}
 	
-	public void setActvCrdLst(CardList cardList) {
-		this.actvCrdLst = cardList;
+	public void setActiveCardType(CardType cardType) {
+		this.activeCardType = cardType;
 	}
 	
-	protected enum CardList {
+	protected enum CardType {
 		
 		CATALOG("catalog"),
 		COLLECTION("collection"),
@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
 		
 		private final String tableName;
 		
-		CardList(String tableName) {
+		CardType(String tableName) {
 			this.tableName = tableName;
 		}
 		

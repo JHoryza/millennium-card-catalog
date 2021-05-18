@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
 
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.services.DatabaseHandler;
-import dev.horyza.mcc.ui.MainFrame.CardList;
+import dev.horyza.mcc.ui.MainFrame.CardType;
 
 public class ImportOptionPanel extends JOptionPane {
 
@@ -52,13 +52,13 @@ public class ImportOptionPanel extends JOptionPane {
 				}
 			}
 			DatabaseHandler db = new DatabaseHandler();
-			List<Card> cardList = db.selectById(CardList.CATALOG.getTableName(), cardMap);
-			String table = CardList.COLLECTION.getTableName();
+			List<Card> cardList = db.selectById(CardType.CATALOG.getTableName(), cardMap);
+			String table = CardType.COLLECTION.getTableName();
 			db.clear(table);
 			db.add(table, cardList);
 			frame.getCollectionPanel().addCards(cardList);
 			frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
-			frame.setActvCrdLst(CardList.COLLECTION);
+			frame.setActiveCardType(CardType.COLLECTION);
 		}
 	}
 }
