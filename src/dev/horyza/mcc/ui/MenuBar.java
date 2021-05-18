@@ -13,48 +13,93 @@ import dev.horyza.mcc.ui.MainFrame.CardList;
 public class MenuBar extends JMenuBar {
 
 	private MainFrame frame;
+	private JMenuItem openCatalog;
+	private JMenuItem openCollection;
 	
 	public MenuBar(MainFrame frame) {
 		this.frame = frame;
 		add(getFileMenu());
-		add(getViewMenu());
+		add(getCatalogMenu());
+		add(getCollectionMenu());
+		add(getDeckMenu());
 	}
 	
 	private JMenu getFileMenu() {
 		JMenu fileMenu = new JMenu("File");
 		
-		JMenuItem importCollection = new JMenuItem("Import Collection");
+		return fileMenu;
+	}
+	
+	private JMenu getCatalogMenu() {
+		JMenu catalogMenu = new JMenu("Catalog");
+		
+		openCatalog = new JMenuItem("Open Catalog");
+		openCatalog.setEnabled(false);
+		openCatalog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.getCardScrollPane().setViewportView(frame.getCatalogPanel());	
+				frame.setActvCrdLst(CardList.CATALOG);
+				openCatalog.setEnabled(false);
+				openCollection.setEnabled(true);
+			}
+		});
+		catalogMenu.add(openCatalog);
+		
+		return catalogMenu;
+	}
+	
+	private JMenu getCollectionMenu() {
+		JMenu collectionMenu = new JMenu("Collection");
+		
+		openCollection = new JMenuItem("Open Collection");
+		openCollection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());	
+				frame.setActvCrdLst(CardList.COLLECTION);
+				openCatalog.setEnabled(true);
+				openCollection.setEnabled(false);
+			}
+		});
+		collectionMenu.add(openCollection);
+		
+		JMenuItem importCollection = new JMenuItem("Import");
 		importCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ImportOptionPanel(frame);
 			}
 		});
-		fileMenu.add(importCollection);
+		collectionMenu.add(importCollection);
 		
-		return fileMenu;
+		JMenuItem exportCollection = new JMenuItem("Export");
+		exportCollection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		collectionMenu.add(exportCollection);
+		
+		return collectionMenu;
 	}
 	
-	private JMenu getViewMenu() {
-		JMenu viewMenu = new JMenu("View");
+	private JMenu getDeckMenu() {
+		JMenu deckMenu = new JMenu("Deck");
 		
-		JMenuItem viewCatalog = new JMenuItem("Catalog");
-		viewCatalog.addActionListener(new ActionListener() {
+		JMenuItem importDeck = new JMenuItem("Import");
+		importDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.getCardScrollPane().setViewportView(frame.getCatalogPanel());	
-				frame.setActvCrdLst(CardList.CATALOG);
+				
 			}
 		});
-		viewMenu.add(viewCatalog);
+		deckMenu.add(importDeck);
 		
-		JMenuItem viewCollection = new JMenuItem("Collection");
-		viewCollection.addActionListener(new ActionListener() {
+		JMenuItem exportDeck = new JMenuItem("Export");
+		exportDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
-				frame.setActvCrdLst(CardList.COLLECTION);
+				
 			}
 		});
-		viewMenu.add(viewCollection);
+		deckMenu.add(exportDeck);
 		
-		return viewMenu;
+		return deckMenu;
 	}
 }
