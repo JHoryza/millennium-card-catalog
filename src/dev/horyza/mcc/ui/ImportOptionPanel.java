@@ -41,17 +41,21 @@ public class ImportOptionPanel extends JOptionPane {
 					int id = Integer.parseInt(values[0]);
 					int quantity = values.length == 1 ? 1 : Integer.parseInt(values[1]);
 
-					if (cardMap.containsKey(id))
+					if (cardMap.containsKey(id)) {
 						cardMap.replace(id, cardMap.get(id) + quantity);
-					else
+					} else {
 						cardMap.put(id, quantity);
+					}
 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			DatabaseHandler db = new DatabaseHandler();
-			List<Card> cardList = db.selectFiltered(CardList.CATALOG.getTableName(), cardMap);
+			List<Card> cardList = db.selectById(CardList.CATALOG.getTableName(), cardMap);
+			String table = CardList.COLLECTION.getTableName();
+			db.clear(table);
+			db.add(table, cardList);
 			frame.getCollectionPanel().addCards(cardList);
 			frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
 			frame.setActvCrdLst(CardList.COLLECTION);

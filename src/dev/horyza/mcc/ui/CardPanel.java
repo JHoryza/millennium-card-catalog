@@ -50,13 +50,13 @@ public class CardPanel extends JPanel {
 		cards.addAll(cardsToAdd);
 		for (int i = 0; i < cardsToAdd.size(); i++) {
 			Card card = cardsToAdd.get(i);
-			JLabel cardLabel = createLabel(card);
 
 			List<Card> temp = cardsToAdd.subList(0, i);
 			if (temp.contains(card)) {
 				continue;
 			}
 
+			JLabel cardLabel = createLabel(card);
 			add(cardLabel);
 			cardMap.put(cardLabel, card);
 		}
@@ -172,7 +172,9 @@ public class CardPanel extends JPanel {
 		JMenuItem addToCollection = new JMenuItem("Add to collection");
 		addToCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DatabaseHandler db = new DatabaseHandler();
 				Card card = cardMap.get(label);
+				db.add(cardList.getTableName(), Arrays.asList(card));
 				frame.getCollectionPanel().addCards(Arrays.asList(card));
 			}
 		});
