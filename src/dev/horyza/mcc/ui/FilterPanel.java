@@ -17,7 +17,7 @@ import dev.horyza.mcc.util.WrapLayout;
 import javax.swing.JButton;
 
 public class FilterPanel extends JPanel {
-	
+
 	public FilterPanel(MainFrame frame) {
 		setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
 		setBorder(new EmptyBorder(0, 50, 0, 50));
@@ -165,17 +165,26 @@ public class FilterPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = nameText.getText().equals("") ? null : String.valueOf(nameText.getText());
-				String type = String.valueOf(typeCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null : String.valueOf(typeCombo.getSelectedItem());
-				String attribute = String.valueOf(attributeCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null : String.valueOf(attributeCombo.getSelectedItem());
-				String race = String.valueOf(raceCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null : String.valueOf(raceCombo.getSelectedItem());
-				String archetype = String.valueOf(archetypeCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null : String.valueOf(archetypeCombo.getSelectedItem());
-				int atkMin = atkMinText.getText().equalsIgnoreCase("") ? -1 : Integer.parseInt(String.valueOf(atkMinText.getText()));
-				int atkMax = atkMaxText.getText().equalsIgnoreCase("") ? -1 : Integer.parseInt(String.valueOf(atkMaxText.getText()));
-				int defMin = defMinText.getText().equalsIgnoreCase("") ? -1 : Integer.parseInt(String.valueOf(defMinText.getText()));
-				int defMax = defMaxText.getText().equalsIgnoreCase("") ? -1 : Integer.parseInt(String.valueOf(defMaxText.getText()));
+				String type = String.valueOf(typeCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null
+						: String.valueOf(typeCombo.getSelectedItem());
+				String attribute = String.valueOf(attributeCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null
+						: String.valueOf(attributeCombo.getSelectedItem());
+				String race = String.valueOf(raceCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null
+						: String.valueOf(raceCombo.getSelectedItem());
+				String archetype = String.valueOf(archetypeCombo.getSelectedItem()).equalsIgnoreCase("-- ALL --") ? null
+						: String.valueOf(archetypeCombo.getSelectedItem());
+				int atkMin = atkMinText.getText().equalsIgnoreCase("") ? -1
+						: Integer.parseInt(String.valueOf(atkMinText.getText()));
+				int atkMax = atkMaxText.getText().equalsIgnoreCase("") ? -1
+						: Integer.parseInt(String.valueOf(atkMaxText.getText()));
+				int defMin = defMinText.getText().equalsIgnoreCase("") ? -1
+						: Integer.parseInt(String.valueOf(defMinText.getText()));
+				int defMax = defMaxText.getText().equalsIgnoreCase("") ? -1
+						: Integer.parseInt(String.valueOf(defMaxText.getText()));
 				int levelMin = Integer.parseInt(String.valueOf(levelMinCombo.getSelectedItem()));
 				int levelMax = Integer.parseInt(String.valueOf(levelMaxCombo.getSelectedItem()));
-				Filter filter = new Filter(name, type, attribute, race, archetype, atkMin, atkMax, defMin, defMax, levelMin, levelMax);
+				Filter filter = new Filter(name, type, attribute, race, archetype, atkMin, atkMax, defMin, defMax,
+						levelMin, levelMax);
 				if (frame.getActvCrdLst() == CardList.CATALOG) {
 					frame.getCatalogPanel().filterCards(filter);
 				} else if (frame.getActvCrdLst() == CardList.COLLECTION) {
@@ -184,5 +193,32 @@ public class FilterPanel extends JPanel {
 			}
 		});
 		add(applyButton);
+
+		// Reset filters button
+		JButton resetFilters = new JButton("Reset");
+		resetFilters.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				nameText.setText("");
+				typeCombo.setSelectedIndex(0);
+				attributeCombo.setSelectedIndex(0);
+				raceCombo.setSelectedIndex(0);
+				archetypeCombo.setSelectedIndex(0);
+				atkMinText.setText("");
+				atkMaxText.setText("");
+				defMinText.setText("");
+				defMaxText.setText("");
+				levelMinCombo.setSelectedIndex(0);
+				levelMaxCombo.setSelectedIndex(12);
+				Filter filter = new Filter(null, null, null, null, null, -1, -1, -1, -1,
+						-1, -1);
+				if (frame.getActvCrdLst() == CardList.CATALOG) {
+					frame.getCatalogPanel().filterCards(filter);
+				} else if (frame.getActvCrdLst() == CardList.COLLECTION) {
+					frame.getCollectionPanel().filterCards(filter);
+				}
+			}
+		});
+		add(resetFilters);
 	}
 }
