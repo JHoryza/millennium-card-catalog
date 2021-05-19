@@ -46,13 +46,11 @@ public class MainFrame extends JFrame {
 		contentPane.add(infoPanel, BorderLayout.WEST);
 
 		// Card panel
-		catalogPanel = new CardPanel(this, CardType.CATALOG);
-		catalogPanel.setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
+		catalogPanel = new CardPanel(this, CardType.CATALOG, new WrapLayout(FlowLayout.CENTER, 5, 5));
 		catalogPanel.setBackground(Color.DARK_GRAY);
 		
 		// Collection panel
-		collectionPanel = new CardPanel(this, CardType.COLLECTION);
-		collectionPanel.setLayout(new WrapLayout(FlowLayout.CENTER, 5, 5));
+		collectionPanel = new CardPanel(this, CardType.COLLECTION, new WrapLayout(FlowLayout.CENTER, 5, 5));
 		collectionPanel.setBackground(Color.DARK_GRAY);
 		
 		// Card Scroll Pane
@@ -62,7 +60,7 @@ public class MainFrame extends JFrame {
 		
 		// Deck panel
 		deckPanel = new DeckPanel(this);
-		deckPanel.setVisible(false);
+		//deckPanel.setVisible(false);
 		contentPane.add(deckPanel, BorderLayout.SOUTH);
 
 		return contentPane;

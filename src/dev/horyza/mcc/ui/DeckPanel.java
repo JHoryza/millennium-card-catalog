@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import dev.horyza.mcc.services.DatabaseHandler;
 import dev.horyza.mcc.ui.MainFrame.CardType;
 import dev.horyza.mcc.util.OverlapLayout;
 
@@ -53,8 +54,7 @@ public class DeckPanel extends JPanel {
 	}
 
 	private CardPanel createCardPanel() {
-		CardPanel cardPanel = new CardPanel(frame, CardType.DECK);
-		cardPanel.setLayout(new OverlapLayout(new Point(20, 0)));
+		CardPanel cardPanel = new CardPanel(frame, CardType.DECK, new OverlapLayout(new Point(20, 0)));
 		cardPanel.setBackground(Color.LIGHT_GRAY);
 		return cardPanel;
 	}

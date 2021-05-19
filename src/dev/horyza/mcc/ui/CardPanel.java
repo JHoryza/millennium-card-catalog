@@ -1,12 +1,15 @@
 package dev.horyza.mcc.ui;
 
 import java.awt.Image;
+import java.awt.LayoutManager;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,36 +37,36 @@ public class CardPanel extends JPanel {
 	private HashMap<JLabel, Card> cardLabels = new HashMap<JLabel, Card>();
 	private List<Card> cardList = new ArrayList<>();
 
-	public CardPanel(MainFrame frame, CardType cardList) {
+	public CardPanel(MainFrame frame, CardType cardList, LayoutManager layout) {
 		this.frame = frame;
 		this.cardType = cardList;
+		setLayout(layout);
 		addCards(db.selectAll(cardList.getTableName()));
 	}
 
 	public void addCards(List<Card> cardsToAdd) {
 		cardList.addAll(cardsToAdd);
-		int cursor = 0;
 		for (int i = 0; i < cardsToAdd.size(); i++) {
 			Card card = cardsToAdd.get(i);
-			if (i != 0) {
-				for (int j = cursor; j < i; j++) {
-					cursor++;
-					if (cardList.get(j).getId() == card.getId()) {
-						continue;
-					}
-					JLabel cardLabel = createLabel(card);
-					add(cardLabel);
-					cardLabels.put(cardLabel, card);
+			if (cardType == CardType.COLLECTION) {
+				if (labelExists(card)) {
+					continue;
 				}
-			} else {
-				JLabel cardLabel = createLabel(card);
-				add(cardLabel);
-				cardLabels.put(cardLabel, card);
 			}
+			JLabel cardLabel = createLabel(card);
+			cardLabels.put(cardLabel, card);
+			add(cardLabel);
 		}
 	}
 	
 	public void removeCard(JLabel cardLabel) {
+		Card cardToRemove = cardLabels.get(cardLabel);
+		List<Card> cards = new ArrayList<>(cardList);
+		for (Card card : cards) {
+			if (card.getId() == cardToRemove.getId()) {
+				cardList.remove(cardList.indexOf(card));
+			}
+		}
 		cardLabels.remove(cardLabel);
 		remove(cardLabel);
 		revalidate();
@@ -107,6 +110,15 @@ public class CardPanel extends JPanel {
 				label.setVisible(false);
 			}
 		}
+	}
+	
+	private boolean labelExists(Card card) {
+		for (Card label : cardLabels.values()) {
+			if (label.getId() == card.getId()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private int getNumCopies(Card card) {
@@ -200,8 +212,9 @@ public class CardPanel extends JPanel {
 				Card card = cardLabels.get(label);
 				frame.getDeckPanel().incrementCount(cardLabels.get(label).getType(), 1);
 				frame.getDeckPanel().getCardPanel().addCards(Arrays.asList(card));
-				if (frame.getDeckPanel().getCardPanel().getCardLabels().size() > 0)
+				if (frame.getDeckPanel().getCardPanel().getCardLabels().size() > 0) {
 					frame.getDeckPanel().setVisible(true);
+				}
 			}
 		});
 		return addToDeck;

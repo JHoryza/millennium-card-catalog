@@ -3,11 +3,15 @@ package dev.horyza.mcc.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import dev.horyza.mcc.model.Card;
+import dev.horyza.mcc.services.DatabaseHandler;
 import dev.horyza.mcc.ui.MainFrame.CardType;
 
 public class MenuBar extends JMenuBar {
@@ -26,6 +30,24 @@ public class MenuBar extends JMenuBar {
 	
 	private JMenu getFileMenu() {
 		JMenu fileMenu = new JMenu("File");
+		
+		JMenuItem save = new JMenuItem("Save");
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DatabaseHandler db = new DatabaseHandler();
+				
+				String collectionTable = CardType.COLLECTION.getTableName();
+				List<Card> collectionCards = frame.getCollectionPanel().getCardList();
+				db.clear(collectionTable);
+				db.add(collectionTable, collectionCards);
+				
+				String deckTable = CardType.DECK.getTableName();
+				List<Card> deckCards = frame.getDeckPanel().getCardPanel().getCardList();
+				db.clear(deckTable);
+				db.add(deckTable, deckCards);
+			}
+		});
+		fileMenu.add(save);
 		
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(new ActionListener() {
