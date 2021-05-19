@@ -2,12 +2,12 @@ package dev.horyza.mcc.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.ui.MainFrame.CardType;
 
 public class MenuBar extends JMenuBar {
@@ -26,6 +26,14 @@ public class MenuBar extends JMenuBar {
 	
 	private JMenu getFileMenu() {
 		JMenu fileMenu = new JMenu("File");
+		
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+			}
+		});
+		fileMenu.add(exit);
 		
 		return fileMenu;
 	}

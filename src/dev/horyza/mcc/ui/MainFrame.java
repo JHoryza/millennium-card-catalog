@@ -4,19 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import dev.horyza.mcc.services.DatabaseHandler;
-import dev.horyza.mcc.util.OverlapLayout;
 import dev.horyza.mcc.util.WrapLayout;
 
 public class MainFrame extends JFrame {
 	
-	private DatabaseHandler db = new DatabaseHandler();
 	private MenuBar menuBar = new MenuBar(this);
 	private FilterPanel filterPanel;
 	private InfoPanel infoPanel;
@@ -87,8 +83,6 @@ public class MainFrame extends JFrame {
 	public JScrollPane getCardScrollPane() {
 		return cardScrollPane;
 	}
-	
-	
 	
 	public DeckPanel getDeckPanel() {
 		return deckPanel;

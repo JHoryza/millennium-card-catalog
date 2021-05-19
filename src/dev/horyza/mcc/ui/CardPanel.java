@@ -1,16 +1,12 @@
 package dev.horyza.mcc.ui;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +20,11 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.ToolTipManager;
 
 import dev.horyza.mcc.model.Card;
 import dev.horyza.mcc.model.Filter;
 import dev.horyza.mcc.services.DatabaseHandler;
 import dev.horyza.mcc.ui.MainFrame.CardType;
-import dev.horyza.mcc.util.WrapLayout;
 
 public class CardPanel extends JPanel {
 
@@ -65,6 +59,52 @@ public class CardPanel extends JPanel {
 				JLabel cardLabel = createLabel(card);
 				add(cardLabel);
 				cardLabels.put(cardLabel, card);
+			}
+		}
+	}
+	
+	public void removeCard(JLabel cardLabel) {
+		cardLabels.remove(cardLabel);
+		remove(cardLabel);
+		revalidate();
+		repaint();
+	}
+	
+	public void filterCards(Filter filter) {
+		Map<Supplier<Boolean>, Predicate<JLabel>> map = new HashMap<>();
+		map.put(() -> filter.getName() != null, c -> cardLabels.get(c).getName().contains(filter.getName()));
+		map.put(() -> filter.getType() != null, c -> cardLabels.get(c).getType().equalsIgnoreCase(filter.getType())
+				&& !cardLabels.get(c).getType().equalsIgnoreCase(""));
+		map.put(() -> filter.getAttribute() != null,
+				c -> cardLabels.get(c).getAttribute().equalsIgnoreCase(filter.getAttribute())
+						&& !cardLabels.get(c).getAttribute().equalsIgnoreCase(""));
+		map.put(() -> filter.getRace() != null, c -> cardLabels.get(c).getRace().equalsIgnoreCase(filter.getRace())
+				&& !cardLabels.get(c).getRace().equalsIgnoreCase(""));
+		map.put(() -> filter.getArchetype() != null,
+				c -> cardLabels.get(c).getArchetype().equalsIgnoreCase(filter.getArchetype())
+						&& !cardLabels.get(c).getArchetype().equalsIgnoreCase(""));
+		map.put(() -> filter.getAtkMin() != -1,
+				c -> cardLabels.get(c).getAtk() >= filter.getAtkMin() && cardLabels.get(c).getAtk() != -1);
+		map.put(() -> filter.getAtkMax() != -1,
+				c -> cardLabels.get(c).getAtk() <= filter.getAtkMax() && cardLabels.get(c).getAtk() != -1);
+		map.put(() -> filter.getDefMin() != -1,
+				c -> cardLabels.get(c).getDef() >= filter.getDefMin() && cardLabels.get(c).getDef() != -1);
+		map.put(() -> filter.getDefMax() != -1,
+				c -> cardLabels.get(c).getDef() <= filter.getDefMax() && cardLabels.get(c).getDef() != -1);
+		map.put(() -> filter.getLevelMin() != -1,
+				c -> cardLabels.get(c).getLevel() >= filter.getLevelMin() && cardLabels.get(c).getLevel() != -1);
+		map.put(() -> filter.getLevelMax() != -1,
+				c -> cardLabels.get(c).getLevel() <= filter.getLevelMax() && cardLabels.get(c).getLevel() != -1);
+
+		List<JLabel> filterList = cardLabels.keySet().stream().filter(map.entrySet().stream()
+				.filter(e -> e.getKey().get()).map(Entry::getValue).reduce(i -> true, (l, r) -> l.and(r)))
+				.collect(Collectors.toList());
+
+		for (JLabel label : cardLabels.keySet()) {
+			if (filterList.contains(label)) {
+				label.setVisible(true);
+			} else {
+				label.setVisible(false);
 			}
 		}
 	}
@@ -119,52 +159,6 @@ public class CardPanel extends JPanel {
 				}
 			}
 		});
-	}
-
-	public void removeCard(JLabel cardLabel) {
-		cardLabels.remove(cardLabel);
-		remove(cardLabel);
-		revalidate();
-		repaint();
-	}
-
-	public void filterCards(Filter filter) {
-		Map<Supplier<Boolean>, Predicate<JLabel>> map = new HashMap<>();
-		map.put(() -> filter.getName() != null, c -> cardLabels.get(c).getName().contains(filter.getName()));
-		map.put(() -> filter.getType() != null, c -> cardLabels.get(c).getType().equalsIgnoreCase(filter.getType())
-				&& !cardLabels.get(c).getType().equalsIgnoreCase(""));
-		map.put(() -> filter.getAttribute() != null,
-				c -> cardLabels.get(c).getAttribute().equalsIgnoreCase(filter.getAttribute())
-						&& !cardLabels.get(c).getAttribute().equalsIgnoreCase(""));
-		map.put(() -> filter.getRace() != null, c -> cardLabels.get(c).getRace().equalsIgnoreCase(filter.getRace())
-				&& !cardLabels.get(c).getRace().equalsIgnoreCase(""));
-		map.put(() -> filter.getArchetype() != null,
-				c -> cardLabels.get(c).getArchetype().equalsIgnoreCase(filter.getArchetype())
-						&& !cardLabels.get(c).getArchetype().equalsIgnoreCase(""));
-		map.put(() -> filter.getAtkMin() != -1,
-				c -> cardLabels.get(c).getAtk() >= filter.getAtkMin() && cardLabels.get(c).getAtk() != -1);
-		map.put(() -> filter.getAtkMax() != -1,
-				c -> cardLabels.get(c).getAtk() <= filter.getAtkMax() && cardLabels.get(c).getAtk() != -1);
-		map.put(() -> filter.getDefMin() != -1,
-				c -> cardLabels.get(c).getDef() >= filter.getDefMin() && cardLabels.get(c).getDef() != -1);
-		map.put(() -> filter.getDefMax() != -1,
-				c -> cardLabels.get(c).getDef() <= filter.getDefMax() && cardLabels.get(c).getDef() != -1);
-		map.put(() -> filter.getLevelMin() != -1,
-				c -> cardLabels.get(c).getLevel() >= filter.getLevelMin() && cardLabels.get(c).getLevel() != -1);
-		map.put(() -> filter.getLevelMax() != -1,
-				c -> cardLabels.get(c).getLevel() <= filter.getLevelMax() && cardLabels.get(c).getLevel() != -1);
-
-		List<JLabel> filterList = cardLabels.keySet().stream().filter(map.entrySet().stream()
-				.filter(e -> e.getKey().get()).map(Entry::getValue).reduce(i -> true, (l, r) -> l.and(r)))
-				.collect(Collectors.toList());
-
-		for (JLabel label : cardLabels.keySet()) {
-			if (filterList.contains(label)) {
-				label.setVisible(true);
-			} else {
-				label.setVisible(false);
-			}
-		}
 	}
 
 	private JPopupMenu getPopupMenu(JLabel label) {

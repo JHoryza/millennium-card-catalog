@@ -6,8 +6,6 @@ import java.awt.FontMetrics;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class Util {
