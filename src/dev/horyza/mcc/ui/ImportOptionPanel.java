@@ -33,32 +33,32 @@ public class ImportOptionPanel extends JOptionPane {
 		int choice = showConfirmDialog(null, contentPane, "Import Collection", JOptionPane.OK_CANCEL_OPTION);
 
 		if (choice == JOptionPane.OK_OPTION) {
-			String inputLine[] = input.getText().split("\\r?\\n");
-			HashMap<Integer, Integer> cardMap = new HashMap<>();
-			for (String line : inputLine) {
-				try {
-					String values[] = line.split("\t");
-					int id = Integer.parseInt(values[0]);
-					int quantity = values.length == 1 ? 1 : Integer.parseInt(values[1]);
-
-					if (cardMap.containsKey(id)) {
-						cardMap.replace(id, cardMap.get(id) + quantity);
-					} else {
-						cardMap.put(id, quantity);
+			try {
+				String inputLine[] = input.getText().split("\\r?\\n");
+				HashMap<Integer, Integer> idList = new HashMap<>();
+				for (String line : inputLine) {
+					try {
+						String values[] = line.split("\t");
+						int id = Integer.parseInt(values[0]);
+						int quantity = values.length == 1 ? 1 : Integer.parseInt(values[1]);
+						idList.put(id, quantity);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
+				DatabaseHandler db = new DatabaseHandler();
+				List<Card> cardList = db.selectById(CardType.CATALOG.getTableName(), idList);
+				String table = CardType.COLLECTION.getTableName();
+				db.clear(table);
+				db.add(table, cardList);
+				frame.getCollectionPanel().getCardList().clear();
+				frame.getCollectionPanel().getCardLabels().clear();
+				frame.getCollectionPanel().addCards(cardList);
+				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
+				frame.setActiveCardType(CardType.COLLECTION);
+			} catch (Exception e) {
+
 			}
-			DatabaseHandler db = new DatabaseHandler();
-			List<Card> cardList = db.selectById(CardType.CATALOG.getTableName(), cardMap);
-			String table = CardType.COLLECTION.getTableName();
-			db.clear(table);
-			db.add(table, cardList);
-			frame.getCollectionPanel().addCards(cardList);
-			frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
-			frame.setActiveCardType(CardType.COLLECTION);
 		}
 	}
 }

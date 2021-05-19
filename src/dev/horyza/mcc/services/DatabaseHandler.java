@@ -66,11 +66,11 @@ public class DatabaseHandler {
 		return cardList;
 	}
 
-	public List<Card> selectById(String table, HashMap<Integer, Integer> cardMap) {
+	public List<Card> selectById(String table, HashMap<Integer, Integer> idMap) {
 		List<Card> cardList = new ArrayList<Card>();
 		String sql = "SELECT * FROM " + table + " WHERE id IN (";
 
-		List<Integer> idList = new ArrayList<Integer>(cardMap.keySet());
+		List<Integer> idList = new ArrayList<Integer>(idMap.keySet());
 		for (int i = 0; i < idList.size(); i++) {
 			if (i == idList.size() - 1)
 				sql += idList.get(i) + ")";
@@ -94,7 +94,7 @@ public class DatabaseHandler {
 				int atk = rs.getString("atk") == null ? -1 : Integer.parseInt(rs.getString("atk"));
 				int def = rs.getString("def") == null ? -1 : Integer.parseInt(rs.getString("def"));
 				int level = rs.getString("level") == null ? -1 : Integer.parseInt(rs.getString("level"));
-				int quantity = cardMap.get(id);
+				int quantity = idMap.get(id);
 				Card card = new Card(id, name, desc, type, attribute, race, archetype, atk, def, level);
 				for (int i = 0; i < quantity; i++) {
 					cardList.add(card);
@@ -137,7 +137,7 @@ public class DatabaseHandler {
 	}
 	
 	public boolean clear(String table) {
-		String sql = "TRUNCATE TABLE " + table;
+		String sql = "DELETE FROM " + table;
 		
 		try (Connection conn = this.connect()) {
 			Statement statement = conn.createStatement();

@@ -206,7 +206,7 @@ public class CardPanel extends JPanel {
 				Card card = cardLabels.get(label);
 				frame.getDeckPanel().incrementCount(cardLabels.get(label).getType(), 1);
 				frame.getDeckPanel().getCardPanel().addCards(Arrays.asList(card));
-				if (frame.getDeckPanel().getCardPanel().getCardMap().size() > 0)
+				if (frame.getDeckPanel().getCardPanel().getCardLabels().size() > 0)
 					frame.getDeckPanel().setVisible(true);
 			}
 		});
@@ -229,14 +229,18 @@ public class CardPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				frame.getDeckPanel().decrementCount(cardLabels.get(label).getType(), 1);
 				removeCard(label);
-				if (frame.getDeckPanel().getCardPanel().getCardMap().size() == 0)
+				if (frame.getDeckPanel().getCardPanel().getCardLabels().size() == 0)
 					frame.getDeckPanel().setVisible(false);
 			}
 		});
 		return removeFromDeck;
 	}
 
-	public HashMap<JLabel, Card> getCardMap() {
+	public HashMap<JLabel, Card> getCardLabels() {
 		return cardLabels;
+	}
+	
+	public List<Card> getCardList() {
+		return cardList;
 	}
 }
