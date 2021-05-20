@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 import dev.horyza.mcc.util.WrapLayout;
 
@@ -45,18 +46,24 @@ public class MainFrame extends JFrame {
 		infoPanel = new InfoPanel();
 		contentPane.add(infoPanel, BorderLayout.WEST);
 
-		// Card panel
+		// Catalog panel
 		catalogPanel = new CardPanel(this, CardType.CATALOG, new WrapLayout(FlowLayout.CENTER, 5, 5));
 		catalogPanel.setBackground(Color.DARK_GRAY);
+		JScrollPane catalogScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		catalogScrollPane.getVerticalScrollBar().setUnitIncrement(32);
 		
 		// Collection panel
 		collectionPanel = new CardPanel(this, CardType.COLLECTION, new WrapLayout(FlowLayout.CENTER, 5, 5));
 		collectionPanel.setBackground(Color.DARK_GRAY);
+		JScrollPane collectionScrollPane = new JScrollPane(collectionPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		collectionScrollPane.getVerticalScrollBar().setUnitIncrement(32);
 		
-		// Card Scroll Pane
-		cardScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		cardScrollPane.getVerticalScrollBar().setUnitIncrement(32);
-		contentPane.add(cardScrollPane, BorderLayout.CENTER);
+		// Card Tabbed Pane
+		JTabbedPane cardTabbedPane = new JTabbedPane();
+		cardTabbedPane.addTab("Catalog", catalogScrollPane);
+		cardTabbedPane.addTab("Collection", collectionScrollPane);
+		
+		contentPane.add(cardTabbedPane, BorderLayout.CENTER);
 		
 		// Deck panel
 		deckPanel = new DeckPanel(this);
