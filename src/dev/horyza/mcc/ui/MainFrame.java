@@ -5,10 +5,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 
 import dev.horyza.mcc.util.WrapLayout;
 
@@ -23,6 +26,7 @@ public class MainFrame extends JFrame {
 	private JScrollPane catalogScrollPane;
 	private JScrollPane collectionScrollPane;
 	private JTabbedPane cardTabbedPane;
+	private JScrollPane infoScrollPane;
 	private CardType activeCardType = CardType.CATALOG;
 	
 	public MainFrame() {
@@ -45,8 +49,13 @@ public class MainFrame extends JFrame {
 		contentPane.add(filterPanel, BorderLayout.NORTH);
 
 		// Info panel
-		infoPanel = new InfoPanel();
-		contentPane.add(infoPanel, BorderLayout.WEST);
+		infoPanel = new InfoPanel(this);
+		infoScrollPane = new JScrollPane(infoPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		infoScrollPane.getVerticalScrollBar().setUnitIncrement(32);
+		InputMap im = infoScrollPane.getVerticalScrollBar().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		im.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
+		im.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
+		contentPane.add(infoScrollPane, BorderLayout.WEST);
 
 		// Catalog panel
 		catalogPanel = new CardPanel(this, CardType.CATALOG, new WrapLayout(FlowLayout.CENTER, 5, 5));
@@ -101,6 +110,10 @@ public class MainFrame extends JFrame {
 	
 	public JTabbedPane getCardTabbedPane() {
 		return cardTabbedPane;
+	}
+	
+	public JScrollPane getInfoScrollPane() {
+		return infoScrollPane;
 	}
 	
 	public CardType getActiveCardType() {
