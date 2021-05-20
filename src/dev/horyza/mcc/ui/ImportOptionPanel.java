@@ -51,8 +51,6 @@ public class ImportOptionPanel extends JOptionPane {
 				frame.getCollectionPanel().getCardList().clear();
 				frame.getCollectionPanel().getCardLabels().clear();
 				frame.getCollectionPanel().addCards(cardList);
-				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());
-				frame.setActiveCardType(CardType.COLLECTION);
 			} catch (Exception e) {
 
 			}

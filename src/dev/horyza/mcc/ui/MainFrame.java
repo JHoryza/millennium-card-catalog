@@ -20,7 +20,9 @@ public class MainFrame extends JFrame {
 	private CardPanel catalogPanel;
 	private CardPanel collectionPanel;
 	private DeckPanel deckPanel;
-	private JScrollPane cardScrollPane;
+	private JScrollPane catalogScrollPane;
+	private JScrollPane collectionScrollPane;
+	private JTabbedPane cardTabbedPane;
 	private CardType activeCardType = CardType.CATALOG;
 	
 	public MainFrame() {
@@ -49,17 +51,17 @@ public class MainFrame extends JFrame {
 		// Catalog panel
 		catalogPanel = new CardPanel(this, CardType.CATALOG, new WrapLayout(FlowLayout.CENTER, 5, 5));
 		catalogPanel.setBackground(Color.DARK_GRAY);
-		JScrollPane catalogScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		catalogScrollPane = new JScrollPane(catalogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		catalogScrollPane.getVerticalScrollBar().setUnitIncrement(32);
 		
 		// Collection panel
 		collectionPanel = new CardPanel(this, CardType.COLLECTION, new WrapLayout(FlowLayout.CENTER, 5, 5));
 		collectionPanel.setBackground(Color.DARK_GRAY);
-		JScrollPane collectionScrollPane = new JScrollPane(collectionPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		collectionScrollPane = new JScrollPane(collectionPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		collectionScrollPane.getVerticalScrollBar().setUnitIncrement(32);
 		
 		// Card Tabbed Pane
-		JTabbedPane cardTabbedPane = new JTabbedPane();
+		cardTabbedPane = new JTabbedPane();
 		cardTabbedPane.addTab("Catalog", catalogScrollPane);
 		cardTabbedPane.addTab("Collection", collectionScrollPane);
 		
@@ -85,12 +87,20 @@ public class MainFrame extends JFrame {
 		return collectionPanel;
 	}
 	
-	public JScrollPane getCardScrollPane() {
-		return cardScrollPane;
-	}
-	
 	public DeckPanel getDeckPanel() {
 		return deckPanel;
+	}
+	
+	public JScrollPane getCatalogScrollPane() {
+		return catalogScrollPane;
+	}
+	
+	public JScrollPane getCollectionScrollPane() {
+		return collectionScrollPane;
+	}
+	
+	public JTabbedPane getCardTabbedPane() {
+		return cardTabbedPane;
 	}
 	
 	public CardType getActiveCardType() {

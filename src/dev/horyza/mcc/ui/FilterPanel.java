@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -185,9 +186,10 @@ public class FilterPanel extends JPanel {
 				int levelMax = Integer.parseInt(String.valueOf(levelMaxCombo.getSelectedItem()));
 				Filter filter = new Filter(name, type, attribute, race, archetype, atkMin, atkMax, defMin, defMax,
 						levelMin, levelMax);
-				if (frame.getActiveCardType() == CardType.CATALOG) {
+				JTabbedPane tab = frame.getCardTabbedPane();
+				if (tab.getComponentAt(tab.getSelectedIndex()) == frame.getCatalogScrollPane()) {
 					frame.getCatalogPanel().filterCards(filter);
-				} else if (frame.getActiveCardType() == CardType.COLLECTION) {
+				} else if (tab.getComponentAt(tab.getSelectedIndex()) == frame.getCollectionScrollPane()) {
 					frame.getCollectionPanel().filterCards(filter);
 				}
 			}
@@ -212,9 +214,10 @@ public class FilterPanel extends JPanel {
 				levelMaxCombo.setSelectedIndex(12);
 				Filter filter = new Filter(null, null, null, null, null, -1, -1, -1, -1,
 						-1, -1);
-				if (frame.getActiveCardType() == CardType.CATALOG) {
+				JTabbedPane tab = frame.getCardTabbedPane();
+				if (tab.getComponentAt(tab.getSelectedIndex()) == frame.getCatalogScrollPane()) {
 					frame.getCatalogPanel().filterCards(filter);
-				} else if (frame.getActiveCardType() == CardType.COLLECTION) {
+				} else if (tab.getComponentAt(tab.getSelectedIndex()) == frame.getCollectionScrollPane()) {
 					frame.getCollectionPanel().filterCards(filter);
 				}
 			}
