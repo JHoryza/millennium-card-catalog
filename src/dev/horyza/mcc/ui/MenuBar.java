@@ -17,15 +17,10 @@ import dev.horyza.mcc.ui.MainFrame.CardType;
 public class MenuBar extends JMenuBar {
 
 	private MainFrame frame;
-	private JMenuItem openCatalog;
-	private JMenuItem openCollection;
 	
 	public MenuBar(MainFrame frame) {
 		this.frame = frame;
 		add(getFileMenu());
-		add(getCatalogMenu());
-		add(getCollectionMenu());
-		add(getDeckMenu());
 	}
 	
 	private JMenu getFileMenu() {
@@ -49,6 +44,42 @@ public class MenuBar extends JMenuBar {
 		});
 		fileMenu.add(save);
 		
+		JMenu importMenu = new JMenu("Import");
+		JMenuItem importCollection = new JMenuItem("Collection");
+		importCollection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ImportOptionPanel(frame);
+			}
+		});
+		importMenu.add(importCollection);
+		
+		JMenuItem importDeck = new JMenuItem("Deck");
+		importDeck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		importMenu.add(importDeck);
+		fileMenu.add(importMenu);
+		
+		JMenu exportMenu = new JMenu("Export");
+		JMenuItem exportCollection = new JMenuItem("Collection");
+		exportCollection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		exportMenu.add(exportCollection);
+		
+		JMenuItem exportDeck = new JMenuItem("Deck");
+		exportDeck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		exportMenu.add(exportDeck);
+		fileMenu.add(exportMenu);
+		
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -58,78 +89,5 @@ public class MenuBar extends JMenuBar {
 		fileMenu.add(exit);
 		
 		return fileMenu;
-	}
-	
-	private JMenu getCatalogMenu() {
-		JMenu catalogMenu = new JMenu("Catalog");
-		
-		openCatalog = new JMenuItem("Open Catalog");
-		openCatalog.setEnabled(false);
-		openCatalog.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.getCardScrollPane().setViewportView(frame.getCatalogPanel());	
-				frame.setActiveCardType(CardType.CATALOG);
-				openCatalog.setEnabled(false);
-				openCollection.setEnabled(true);
-			}
-		});
-		catalogMenu.add(openCatalog);
-		
-		return catalogMenu;
-	}
-	
-	private JMenu getCollectionMenu() {
-		JMenu collectionMenu = new JMenu("Collection");
-		
-		openCollection = new JMenuItem("Open Collection");
-		openCollection.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.getCardScrollPane().setViewportView(frame.getCollectionPanel());	
-				frame.setActiveCardType(CardType.COLLECTION);
-				openCatalog.setEnabled(true);
-				openCollection.setEnabled(false);
-			}
-		});
-		collectionMenu.add(openCollection);
-		
-		JMenuItem importCollection = new JMenuItem("Import");
-		importCollection.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new ImportOptionPanel(frame);
-			}
-		});
-		collectionMenu.add(importCollection);
-		
-		JMenuItem exportCollection = new JMenuItem("Export");
-		exportCollection.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		collectionMenu.add(exportCollection);
-		
-		return collectionMenu;
-	}
-	
-	private JMenu getDeckMenu() {
-		JMenu deckMenu = new JMenu("Deck");
-		
-		JMenuItem importDeck = new JMenuItem("Import");
-		importDeck.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		deckMenu.add(importDeck);
-		
-		JMenuItem exportDeck = new JMenuItem("Export");
-		exportDeck.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		deckMenu.add(exportDeck);
-		
-		return deckMenu;
 	}
 }
