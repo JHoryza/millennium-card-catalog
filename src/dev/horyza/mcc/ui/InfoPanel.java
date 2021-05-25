@@ -3,28 +3,23 @@ package dev.horyza.mcc.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Point;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import dev.horyza.mcc.model.Card;
-import dev.horyza.mcc.util.Util;
 
 public class InfoPanel extends JPanel {
 
-	private MainFrame frame;
 	private JLabel cardImage;
 	private JLabel cardName;
 	private JTextArea cardDesc;
 	
-	public InfoPanel(MainFrame frame) {
-		this.frame = frame;
+	public InfoPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new EmptyBorder(20, 20, 5, 20));
 		setBackground(Color.GRAY);

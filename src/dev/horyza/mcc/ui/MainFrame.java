@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
 	private CardType activeCardType = CardType.CATALOG;
 	
 	public MainFrame() {
-		setTitle("YU-GI-OH");
+		setTitle("Millenium-Card-Catalog");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		setMinimumSize(new Dimension(800, 600));
@@ -49,7 +49,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(filterPanel, BorderLayout.NORTH);
 
 		// Info panel
-		infoPanel = new InfoPanel(this);
+		infoPanel = new InfoPanel();
 		infoScrollPane = new JScrollPane(infoPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		infoScrollPane.getVerticalScrollBar().setUnitIncrement(32);
 		InputMap im = infoScrollPane.getVerticalScrollBar().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
