@@ -42,6 +42,10 @@ public class CardPanel extends JPanel {
 		addCards(db.selectAll(cardList.getTableName()));
 	}
 
+	/**
+	 * Adds cards to cardList and draws to panel
+	 * @param cardsToAdd List of Card objects to add
+	 */
 	public void addCards(List<Card> cardsToAdd) {
 		cardList.addAll(cardsToAdd);
 		for (int i = 0; i < cardsToAdd.size(); i++) {
@@ -57,6 +61,10 @@ public class CardPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Removes card from panel
+	 * @param cardLabel Label of card to be removed
+	 */
 	public void removeCard(JLabel cardLabel) {
 		Card cardToRemove = cardLabels.get(cardLabel);
 		List<Card> cards = new ArrayList<>(cardList);
@@ -71,6 +79,10 @@ public class CardPanel extends JPanel {
 		repaint();
 	}
 	
+	/**
+	 * Filters cards in card panel
+	 * @param filter Filter object based on current state of filter fields
+	 */
 	public void filterCards(Filter filter) {
 		Map<Supplier<Boolean>, Predicate<JLabel>> map = new HashMap<>();
 		map.put(() -> filter.getName() != null, c -> cardLabels.get(c).getName().contains(filter.getName()));
@@ -110,6 +122,12 @@ public class CardPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Checks whether a label has been created for a given Card
+	 * by comparing card id's
+	 * @param card The card which will be used to find a matching label
+	 * @return true if a label with a matching card id is found
+	 */
 	private boolean labelExists(Card card) {
 		for (Card label : cardLabels.values()) {
 			if (label.getId() == card.getId()) {
@@ -119,6 +137,10 @@ public class CardPanel extends JPanel {
 		return false;
 	}
 
+	/**
+	 * Counts the number of copies of a given Card in the cardList
+	 * @return number of copies
+	 */
 	private int getNumCopies(Card card) {
 		int numCopies = 0;
 		for (int i = 0; i < cardList.size(); i++) {
@@ -129,6 +151,11 @@ public class CardPanel extends JPanel {
 		return numCopies;
 	}
 
+	/**
+	 * Creates a JLabel for a given Card
+	 * @param card The Card object to create a JLabel for
+	 * @return The new JLabel object
+	 */
 	private JLabel createLabel(Card card) {
 		JLabel cardLabel = new JLabel();
 		try {
@@ -143,6 +170,12 @@ public class CardPanel extends JPanel {
 		return cardLabel;
 	}
 
+	/**
+	 * Creates a mouse adapter for a given JLabel
+	 * @param cardLabel The JLabel object to create an adapter for
+	 * @param card The Card object associated with the JLabel
+	 * @return The new MouseAdapter object
+	 */
 	private MouseAdapter createMouseAdapter(JLabel cardLabel, Card card) {
 		return (new MouseAdapter() {
 			@Override
@@ -171,6 +204,11 @@ public class CardPanel extends JPanel {
 		});
 	}
 
+	/**
+	 * Gets the popup menu for a JLabel for the current panel type
+	 * @param label JLabel object associated with the menu
+	 * @return Popup menu with options for the current panel type
+	 */
 	private JPopupMenu getPopupMenu(JLabel label) {
 		JPopupMenu popupMenu = new JPopupMenu();
 		switch (cardType) {
@@ -190,6 +228,12 @@ public class CardPanel extends JPanel {
 		return popupMenu;
 	}
 
+	/**
+	 * Creates a JMenuItem for adding a given JLabel representing 
+	 * a Card to the collection panel
+	 * @param label JLabel to be added to the collection panel
+	 * @return The new JMenuItem object
+	 */
 	private JMenuItem addToCollection(JLabel label) {
 		JMenuItem addToCollection = new JMenuItem("Add to collection");
 		addToCollection.addActionListener(new ActionListener() {
@@ -203,6 +247,12 @@ public class CardPanel extends JPanel {
 		return addToCollection;
 	}
 
+	/**
+	 * Creates a JMenuItem for adding a given JLabel representing
+	 * a Card to the deck panel
+	 * @param label JLabel to be added to the deck panel
+	 * @return The new JMenuItem object
+	 */
 	private JMenuItem addToDeck(JLabel label) {
 		JMenuItem addToDeck = new JMenuItem("Add to deck");
 		addToDeck.addActionListener(new ActionListener() {
@@ -218,6 +268,12 @@ public class CardPanel extends JPanel {
 		return addToDeck;
 	}
 
+	/**
+	 * Creates a JMenuItem for removing a given JLabel representing
+	 * a Card from the collection panel
+	 * @param label JLabel to be removed from the collection panel
+	 * @return The new JMenuItem object
+	 */
 	private JMenuItem removeFromCollection(JLabel label) {
 		JMenuItem removeFromCollection = new JMenuItem("Remove from collection");
 		removeFromCollection.addActionListener(new ActionListener() {
@@ -228,6 +284,12 @@ public class CardPanel extends JPanel {
 		return removeFromCollection;
 	}
 
+	/**
+	 * Creates a JMenuItem for removing a given JLabel representing
+	 * a Card from the deck panel
+	 * @param label JLabel to be removed from the deck panel
+	 * @return The new JMenuItem object
+	 */
 	private JMenuItem removeFromDeck(JLabel label) {
 		JMenuItem removeFromDeck = new JMenuItem("Remove from deck");
 		removeFromDeck.addActionListener(new ActionListener() {
