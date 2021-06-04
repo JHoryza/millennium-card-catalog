@@ -20,8 +20,7 @@ import dev.horyza.mcc.model.Card;
 public class DatabaseHandler {
 
 	/**
-	 * Connect to the test.db database
-	 * 
+	 * Connect to the database
 	 * @return the Connection object
 	 */
 	public Connection connect() {
@@ -36,6 +35,11 @@ public class DatabaseHandler {
 		return conn;
 	}
 
+	/**
+	 * Retrieves all cards from a selected table
+	 * @param table The database table of cards
+	 * @return A List of Card objects
+	 */
 	public List<Card> selectAll(String table) {
 		List<Card> cardList = new ArrayList<Card>();
 		String sql = "SELECT * FROM " + table;
@@ -64,6 +68,12 @@ public class DatabaseHandler {
 		return cardList;
 	}
 
+	/**
+	 * Retrieves cards from a table with a specified ID
+	 * @param table The database table of cards
+	 * @param idMap HashMap of (id, count) pairs
+	 * @return A List of Card objects
+	 */
 	public List<Card> selectById(String table, HashMap<Integer, Integer> idMap) {
 		List<Card> cardList = new ArrayList<Card>();
 		String sql = "SELECT * FROM " + table + " WHERE id IN (";
@@ -104,6 +114,12 @@ public class DatabaseHandler {
 		return cardList;
 	}
 
+	/**
+	 * Adds a List of Cards to a specified database table
+	 * @param table The database table of cards
+	 * @param cards List of cards to be added to the database
+	 * @return true if database add was successful
+	 */
 	public boolean add(String table, List<Card> cards) {
 		String sql = "INSERT INTO " + table + " VALUES (?,?,?,?,?,?,?,?,?,?)";
 
@@ -134,6 +150,11 @@ public class DatabaseHandler {
 		}
 	}
 	
+	/**
+	 * Clears the data from a specified table
+	 * @param table The database table to clear data from
+	 * @return true if the data clear was successful
+	 */
 	public boolean clear(String table) {
 		String sql = "DELETE FROM " + table;
 		

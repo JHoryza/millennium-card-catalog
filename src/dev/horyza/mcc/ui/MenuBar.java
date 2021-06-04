@@ -26,6 +26,7 @@ public class MenuBar extends JMenuBar {
 	private JMenu getFileMenu() {
 		JMenu fileMenu = new JMenu("File");
 		
+		// Save
 		JMenuItem save = new JMenuItem("Save");
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -44,6 +45,7 @@ public class MenuBar extends JMenuBar {
 		});
 		fileMenu.add(save);
 		
+		// Import
 		JMenu importMenu = new JMenu("Import");
 		JMenuItem importCollection = new JMenuItem("Collection");
 		importCollection.addActionListener(new ActionListener() {
@@ -53,6 +55,7 @@ public class MenuBar extends JMenuBar {
 		});
 		importMenu.add(importCollection);
 		
+		// Import deck
 		JMenuItem importDeck = new JMenuItem("Deck");
 		importDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -62,6 +65,7 @@ public class MenuBar extends JMenuBar {
 		importMenu.add(importDeck);
 		fileMenu.add(importMenu);
 		
+		// Export
 		JMenu exportMenu = new JMenu("Export");
 		JMenuItem exportCollection = new JMenuItem("Collection");
 		exportCollection.addActionListener(new ActionListener() {
@@ -71,6 +75,7 @@ public class MenuBar extends JMenuBar {
 		});
 		exportMenu.add(exportCollection);
 		
+		// Export deck
 		JMenuItem exportDeck = new JMenuItem("Deck");
 		exportDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -80,6 +85,7 @@ public class MenuBar extends JMenuBar {
 		exportMenu.add(exportDeck);
 		fileMenu.add(exportMenu);
 		
+		//Exit
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
