@@ -7,3 +7,4 @@ Catalog of cards for the Yu-Gi-Oh trading card game. Provides card search using 
 - Import collection string (CSV)
 
 ![alt text](https://i.imgur.com/MMdPmOT.png)
+![alt text](https://i.imgur.com/UifEeyi.mp4)
