@@ -6,5 +6,4 @@ Catalog of cards for the Yu-Gi-Oh trading card game. Provides card search using 
 - SQLite data storage
 - Import collection string (CSV)
 
-![alt text](https://i.imgur.com/MMdPmOT.png)
-![alt text](https://i.imgur.com/UifEeyi.mp4)
+![MCC2](https://user-images.githubusercontent.com/52557062/125817249-152b154c-c7f6-4549-9941-343ba26fd50e.gif)
